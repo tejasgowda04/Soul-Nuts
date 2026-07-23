@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import { LogoEmblem, CartIcon } from './Icons'
+import { CartIcon } from './Icons'
 
 export default function Nav({ onCartOpen }) {
   const { itemCount } = useCart()
@@ -47,17 +47,30 @@ export default function Nav({ onCartOpen }) {
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '18px 32px',
-          background: scrolled ? 'rgba(248,243,230,0.92)' : 'rgba(248,243,230,0.86)',
+          padding: '16px 32px',
+          background: scrolled ? 'rgba(248,243,230,0.94)' : 'rgba(248,243,230,0.88)',
           backdropFilter: 'blur(14px)',
           borderBottom: '1px solid var(--line)',
           transition: 'background 0.3s var(--ease)',
         }}
       >
-        {/* Brandmark */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
-          <LogoEmblem style={{ width: 38, height: 38, flex: 'none' }} />
-          <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 19, letterSpacing: '.01em' }}>
+        {/* Brandmark with real logo.png */}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <img
+            src="/logo.png"
+            alt="Soulnuts Logo"
+            style={{
+              width: 42,
+              height: 42,
+              objectFit: 'contain',
+              borderRadius: '50%',
+              background: 'var(--pine)',
+              padding: 4,
+              border: '1px solid var(--gold)',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            }}
+          />
+          <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 20, letterSpacing: '.01em', color: 'var(--ink)' }}>
             Soulnuts
             <span style={{
               display: 'block', fontFamily: "'Space Mono', monospace",
@@ -70,8 +83,7 @@ export default function Nav({ onCartOpen }) {
         </Link>
 
         {/* Desktop nav links */}
-        <nav style={{ display: 'flex', gap: 34, alignItems: 'center' }}
-          className="hidden md:flex">
+        <nav style={{ display: 'flex', gap: 34, alignItems: 'center' }} className="hidden md:flex">
           {navLinks.map(({ to, label }) => (
             <Link
               key={label}
@@ -93,7 +105,7 @@ export default function Nav({ onCartOpen }) {
             onClick={onCartOpen}
             aria-label={`Open cart, ${itemCount} items`}
             style={{
-              position: 'relative', width: 38, height: 38,
+              position: 'relative', width: 40, height: 40,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               borderRadius: '50%', transition: 'background .25s',
             }}
@@ -106,7 +118,7 @@ export default function Nav({ onCartOpen }) {
                 position: 'absolute', top: -2, right: -2,
                 background: 'var(--rust)', color: '#fff',
                 fontFamily: "'Space Mono', monospace", fontSize: 10,
-                width: 17, height: 17, borderRadius: '50%',
+                width: 18, height: 18, borderRadius: '50%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontWeight: 700,
               }}>
@@ -203,8 +215,8 @@ export default function Nav({ onCartOpen }) {
         </Link>
       </div>
 
-      {/* Spacer so content doesn't hide behind fixed nav */}
-      <div style={{ height: 74 }} />
+      {/* Spacer */}
+      <div style={{ height: 76 }} />
 
       <style>{`
         .nav-link-item::after {
@@ -220,9 +232,6 @@ export default function Nav({ onCartOpen }) {
         .nav-link-item:hover::after { width: 100%; }
         @media (min-width: 768px) {
           #nav-shop-btn { display: inline-flex !important; }
-        }
-        @media (max-width: 767px) {
-          nav.hidden { display: none !important; }
         }
       `}</style>
     </>

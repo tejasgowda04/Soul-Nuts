@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { LogoEmblem, InstagramIcon, WhatsAppIcon, FacebookIcon } from './Icons'
+import { InstagramIcon, WhatsAppIcon, FacebookIcon } from './Icons'
 
 export default function Footer() {
   return (
@@ -16,8 +16,20 @@ export default function Footer() {
         >
           {/* Brand Col */}
           <div style={{ gridColumn: 'span 1' }}>
-            <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 11 }}>
-              <LogoEmblem lightMode style={{ width: 38, height: 38, flex: 'none' }} />
+            <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+              <img
+                src="/logo.png"
+                alt="Soulnuts Logo"
+                style={{
+                  width: 40,
+                  height: 40,
+                  objectFit: 'contain',
+                  borderRadius: '50%',
+                  background: 'var(--pine)',
+                  border: '1px solid var(--gold)',
+                  padding: 3,
+                }}
+              />
               <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 19, letterSpacing: '.01em', color: 'var(--ivory)' }}>
                 Soulnuts
               </span>

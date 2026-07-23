@@ -5,6 +5,7 @@ import Nav from './components/Nav'
 import Footer from './components/Footer'
 import CartDrawer from './components/CartDrawer'
 import Toast from './components/Toast'
+import SplashScreen from './components/SplashScreen'
 
 import Home from './pages/Home'
 import Shop from './pages/Shop'
@@ -81,8 +82,11 @@ function MainLayout() {
 }
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true)
+
   return (
     <CartProvider>
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
       <Router>
         <MainLayout />
       </Router>

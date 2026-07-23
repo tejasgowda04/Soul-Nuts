@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { LogoEmblem, ArrowRight, WhatsAppIcon } from './Icons'
+import { ArrowRight, WhatsAppIcon } from './Icons'
 
 const WHEEL_LABELS = [
   ['Almond', '#c99a63'],
@@ -49,7 +49,7 @@ export default function Hero() {
       <section
         style={{
           position: 'relative',
-          padding: '150px 0 0',
+          padding: '140px 0 0',
           background: 'var(--ivory)',
           overflow: 'hidden',
         }}
@@ -170,7 +170,7 @@ export default function Hero() {
               className="wheel-orbit"
               style={{ animation: 'spin 46s linear infinite' }}
             >
-              {/* Center */}
+              {/* Center with real logo.png */}
               <div
                 style={{
                   position: 'absolute',
@@ -185,12 +185,20 @@ export default function Hero() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   boxShadow: '0 30px 60px -20px rgba(31,59,44,.55)',
-                  border: '1px solid var(--line-dark)',
+                  border: '2px solid var(--gold)',
+                  overflow: 'hidden',
+                  padding: 12,
                 }}
               >
-                <LogoEmblem
-                  lightMode
-                  style={{ width: 78, height: 78 }}
+                <img
+                  src="/logo.png"
+                  alt="Soulnuts Logo"
+                  style={{
+                    width: 110,
+                    height: 110,
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.3))',
+                  }}
                 />
               </div>
 
