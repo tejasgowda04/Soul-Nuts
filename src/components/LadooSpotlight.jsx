@@ -1,41 +1,118 @@
 import { WhatsAppIcon } from './Icons'
 
 export default function LadooSpotlight() {
-  const ladooPositions = [
-    [10, 20, 120],
-    [130, 60, 150],
-    [40, 180, 110],
-    [190, 220, 100],
-    [220, 40, 90],
-    [70, 270, 90],
+  const ingredients = [
+    { name: 'Kashmiri Walnuts', origin: 'Halves & Bits', color: '#c6a15b' },
+    { name: 'Omani Dates', origin: 'Natural Binder', color: '#a6541e' },
+    { name: 'Iranian Pistachio', origin: 'Slow Roasted', color: '#7e8f60' },
+    { name: 'Californian Almonds', origin: 'Golden Crunch', color: '#c99a63' },
   ]
 
   return (
     <section className="section" id="ladoos" style={{ background: 'var(--pine)', color: 'var(--ivory)', position: 'relative', overflow: 'hidden' }}>
-      <div className="wrap" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 60, alignItems: 'center' }}>
+      {/* Background golden glow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '20%',
+          transform: 'translate(-50%, -50%)',
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(198,161,91,0.12) 0%, rgba(31,59,44,0) 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div className="wrap" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 50, alignItems: 'center' }}>
         
-        {/* Ladoo spheres art */}
-        <div style={{ position: 'relative', height: 380, width: '100%', maxWidth: 450, margin: '0 auto' }}>
-          {ladooPositions.map(([left, top, size], idx) => {
-            const isAlt = idx % 2 === 0
-            const primaryColor = isAlt ? '#c46a2c' : '#a6541e'
-            const secondaryColor = isAlt ? '#a6541e' : '#8c4419'
-            return (
-              <div
-                key={idx}
+        {/* Replacement Showcase Card replacing abstract 3D balls */}
+        <div style={{ position: 'relative', width: '100%', maxWidth: 460, margin: '0 auto' }}>
+          <div
+            style={{
+              background: 'linear-gradient(145deg, rgba(39,71,50,0.9), rgba(18,36,26,0.95))',
+              border: '1.5px solid rgba(198,161,91,0.35)',
+              borderRadius: 28,
+              padding: '36px 30px',
+              boxShadow: '0 30px 60px -20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(248,243,230,0.1)',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            {/* Top Badge */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+              <span
                 style={{
-                  position: 'absolute',
-                  left,
-                  top,
-                  width: size,
-                  height: size,
-                  borderRadius: '50%',
-                  background: `radial-gradient(circle at 35% 30%, ${primaryColor}, ${secondaryColor})`,
-                  boxShadow: 'inset -10px -14px 22px rgba(0,0,0,.28), 0 20px 40px -16px rgba(0,0,0,.5)',
+                  fontFamily: "'Space Mono', monospace",
+                  fontSize: 10,
+                  letterSpacing: '.14em',
+                  color: 'var(--gold-soft)',
+                  textTransform: 'uppercase',
+                  border: '1px solid rgba(198,161,91,0.3)',
+                  padding: '5px 12px',
+                  borderRadius: 100,
+                  background: 'rgba(198,161,91,0.06)',
                 }}
-              />
-            )
-          })}
+              >
+                Artisanal Batch #04
+              </span>
+              <img src="/logo.png" alt="Soulnuts" style={{ width: 32, height: 32, borderRadius: '50%' }} />
+            </div>
+
+            {/* Title */}
+            <h3 style={{ fontSize: 24, fontFamily: "'Fraunces', serif", color: 'var(--ivory)', marginBottom: 8 }}>
+              Pure Ingredients, Zero Shortcuts
+            </h3>
+            <p style={{ fontSize: 13, color: 'rgba(248,243,230,0.65)', lineHeight: 1.5, marginBottom: 24 }}>
+              Every box of Soulnuts Ladoos is crafted by hand with carefully portioned, slow-roasted nuts bound naturally.
+            </p>
+
+            {/* Ingredient Chips Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
+              {ingredients.map((ing, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    background: 'rgba(248,243,230,0.04)',
+                    border: '1px solid rgba(248,243,230,0.08)',
+                    borderRadius: 16,
+                    padding: '12px 14px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 3,
+                  }}
+                >
+                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ivory)' }}>
+                    {ing.name}
+                  </span>
+                  <span style={{ fontSize: 10.5, fontFamily: "'Space Mono', monospace", color: ing.color }}>
+                    {ing.origin}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Bottom highlight pill */}
+            <div
+              style={{
+                background: 'rgba(166,84,30,0.18)',
+                border: '1px dashed var(--rust)',
+                borderRadius: 14,
+                padding: '12px 16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ivory)' }}>
+                100% Refined Sugar Free
+              </span>
+              <span style={{ fontSize: 11, fontFamily: "'Space Mono', monospace", color: 'var(--gold-soft)' }}>
+                Bound with Dates
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Copy */}

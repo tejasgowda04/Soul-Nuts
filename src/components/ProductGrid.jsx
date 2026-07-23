@@ -76,13 +76,7 @@ export default function ProductGrid({
           </div>
         )}
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-            gap: 24,
-          }}
-        >
+        <div className="product-grid-items">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -92,6 +86,34 @@ export default function ProductGrid({
           ))}
         </div>
       </div>
+
+      <style>{`
+        .product-grid-items {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+        }
+
+        @media (max-width: 1100px) {
+          .product-grid-items {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .product-grid-items {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+          }
+        }
+
+        @media (max-width: 380px) {
+          .product-grid-items {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+          }
+        }
+      `}</style>
     </section>
   )
 }

@@ -1,16 +1,13 @@
-import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, WhatsAppIcon } from './Icons'
 
-const WHEEL_LABELS = [
-  ['Almond', '#c99a63'],
-  ['Pistachio', '#7e8f60'],
-  ['Cashew', '#d4c9a8'],
-  ['Walnut', '#6e4a2e'],
-  ['Fig', '#8b4a49'],
-  ['Date', '#4a2e1c'],
-  ['Seed Mix', '#8a7a4d'],
-  ['Raisin', '#3c2a1e'],
+const PRODUCT_CARDS = [
+  { name: 'Almonds', color: '#c99a63', accent: '#e6c896', emoji: '🌰' },
+  { name: 'Pistachios', color: '#7e8f60', accent: '#a9bb85', emoji: '🥜' },
+  { name: 'Cashews', color: '#d4c9a8', accent: '#f5efdd', emoji: '🥜' },
+  { name: 'Walnuts', color: '#6e4a2e', accent: '#96684a', emoji: '🌰' },
+  { name: 'Figs', color: '#8b4a49', accent: '#c47a6c', emoji: '🫐' },
+  { name: 'Dates', color: '#4a2e1c', accent: '#7a5a3c', emoji: '🌴' },
 ]
 
 const MARQUEE_WORDS = [
@@ -22,26 +19,6 @@ const MARQUEE_WORDS = [
 ]
 
 export default function Hero() {
-  const wheelRef = useRef(null)
-  const stageRef = useRef(null)
-
-  // Pause wheel on hover
-  useEffect(() => {
-    const stage = stageRef.current
-    const wheel = wheelRef.current
-    if (!stage || !wheel) return
-
-    const pause = () => wheel.classList.add('paused')
-    const resume = () => wheel.classList.remove('paused')
-
-    stage.addEventListener('mouseenter', pause)
-    stage.addEventListener('mouseleave', resume)
-    return () => {
-      stage.removeEventListener('mouseenter', pause)
-      stage.removeEventListener('mouseleave', resume)
-    }
-  }, [])
-
   const marqueeContent = [...MARQUEE_WORDS, ...MARQUEE_WORDS]
 
   return (
@@ -136,122 +113,39 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Wheel */}
-          <div
-            ref={stageRef}
-            style={{
-              position: 'relative',
-              height: 520,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {/* Dashed rings */}
-            {[340, 480].map((size) => (
-              <div
-                key={size}
+          {/* Product Showcase — Floating cards with logo center */}
+          <div className="hero-showcase">
+            {/* Central logo */}
+            <div className="hero-logo-center">
+              <img
+                src="/logo.png"
+                alt="Soulnuts Logo"
                 style={{
-                  position: 'absolute',
-                  width: size,
-                  height: size,
-                  border: '1px dashed rgba(18,36,26,0.18)',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
                   borderRadius: '50%',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
                 }}
               />
-            ))}
+            </div>
 
-            {/* Orbit */}
-            <div
-              ref={wheelRef}
-              className="wheel-orbit"
-              style={{ animation: 'spin 46s linear infinite' }}
-            >
-              {/* Center circle framing transparent logo.png */}
+            {/* Floating product mini-cards */}
+            {PRODUCT_CARDS.map((card, i) => (
               <div
+                key={card.name}
+                className={`hero-float-card hero-float-card-${i}`}
                 style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 150,
-                  height: 150,
-                  borderRadius: '50%',
-                  background: 'var(--paper)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 24px 60px -20px rgba(31,59,44,.45), 0 0 20px rgba(198,161,91,0.2)',
-                  border: '2px solid var(--gold)',
-                  overflow: 'hidden',
-                  padding: 14,
+                  background: `linear-gradient(145deg, ${card.color}, ${card.accent})`,
                 }}
               >
-                <img
-                  src="/logo.png"
-                  alt="Soulnuts Logo"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                    borderRadius: '50%',
-                  }}
-                />
+                <span className="hero-float-emoji">{card.emoji}</span>
+                <span className="hero-float-label">{card.name}</span>
               </div>
+            ))}
 
-              {/* Nodes */}
-              {WHEEL_LABELS.map(([label, color], i) => {
-                const angle = (360 / WHEEL_LABELS.length) * i
-                return (
-                  <div
-                    key={label}
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      width: 74,
-                      height: 74,
-                      margin: '-37px',
-                      transformOrigin: 'center',
-                      transform: `rotate(${angle}deg) translate(180px) rotate(-${angle}deg)`,
-                    }}
-                  >
-                    <div
-                      className="wheel-node chip"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: color,
-                        animation: 'counterspin 46s linear infinite',
-                        boxShadow: '0 14px 28px -12px rgba(18,36,26,.35)',
-                        border: '2px solid var(--paper)',
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "'Space Mono', monospace",
-                          fontSize: 9.5,
-                          fontWeight: 700,
-                          color: 'var(--paper)',
-                          letterSpacing: '.02em',
-                          textAlign: 'center',
-                          lineHeight: 1.15,
-                        }}
-                      >
-                        {label}
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+            {/* Decorative dashed rings */}
+            <div className="hero-ring hero-ring-1" />
+            <div className="hero-ring hero-ring-2" />
           </div>
         </div>
 
@@ -291,10 +185,133 @@ export default function Hero() {
       </section>
 
       <style>{`
+        .hero-showcase {
+          position: relative;
+          height: 480px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .hero-logo-center {
+          width: 130px;
+          height: 130px;
+          border-radius: 50%;
+          background: var(--paper);
+          border: 2px solid var(--gold);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 24px 60px -20px rgba(31,59,44,.4), 0 0 24px rgba(198,161,91,0.2);
+          overflow: hidden;
+          padding: 12px;
+          z-index: 5;
+          position: relative;
+        }
+
+        .hero-ring {
+          position: absolute;
+          border-radius: 50%;
+          border: 1px dashed rgba(18,36,26,0.14);
+          top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+        }
+        .hero-ring-1 { width: 300px; height: 300px; }
+        .hero-ring-2 { width: 440px; height: 440px; }
+
+        .hero-float-card {
+          position: absolute;
+          width: 90px;
+          height: 90px;
+          border-radius: 18px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          box-shadow: 0 16px 32px -14px rgba(18,36,26,0.45);
+          border: 2px solid rgba(255,255,255,0.3);
+          z-index: 4;
+          animation: heroFloat 6s ease-in-out infinite;
+        }
+
+        .hero-float-emoji {
+          font-size: 24px;
+          line-height: 1;
+        }
+
+        .hero-float-label {
+          font-family: 'Space Mono', monospace;
+          font-size: 9px;
+          font-weight: 700;
+          color: var(--paper);
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+        }
+
+        /* Position each card around the circle */
+        .hero-float-card-0 { top: 8%; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+        .hero-float-card-1 { top: 22%; right: 4%; animation-delay: -1s; }
+        .hero-float-card-2 { bottom: 22%; right: 4%; animation-delay: -2s; }
+        .hero-float-card-3 { bottom: 8%; left: 50%; transform: translateX(-50%); animation-delay: -3s; }
+        .hero-float-card-4 { bottom: 22%; left: 4%; animation-delay: -4s; }
+        .hero-float-card-5 { top: 22%; left: 4%; animation-delay: -5s; }
+
+        @keyframes heroFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        /* Override for cards that also have translateX */
+        .hero-float-card-0, .hero-float-card-3 {
+          animation-name: heroFloatCentered;
+        }
+        @keyframes heroFloatCentered {
+          0%, 100% { transform: translateX(-50%) translateY(0); }
+          50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
         @media (max-width: 980px) {
           .hero-inner {
             grid-template-columns: 1fr !important;
           }
+          .hero-showcase {
+            height: 340px;
+          }
+          .hero-logo-center {
+            width: 100px;
+            height: 100px;
+            padding: 10px;
+          }
+          .hero-float-card {
+            width: 70px;
+            height: 70px;
+            border-radius: 14px;
+          }
+          .hero-float-emoji { font-size: 20px; }
+          .hero-float-label { font-size: 7.5px; }
+          .hero-ring-1 { width: 220px; height: 220px; }
+          .hero-ring-2 { width: 320px; height: 320px; }
+        }
+
+        @media (max-width: 480px) {
+          .hero-showcase {
+            height: 280px;
+          }
+          .hero-logo-center {
+            width: 80px;
+            height: 80px;
+            padding: 8px;
+          }
+          .hero-float-card {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+          }
+          .hero-float-emoji { font-size: 17px; }
+          .hero-float-label { font-size: 6.5px; }
+          .hero-ring-1 { width: 180px; height: 180px; }
+          .hero-ring-2 { width: 260px; height: 260px; }
         }
       `}</style>
     </>

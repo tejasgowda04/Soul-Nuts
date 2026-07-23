@@ -205,6 +205,16 @@ export default function ProductCard({ product, onAddToCart }) {
           background: var(--rust) !important;
           transform: rotate(90deg);
         }
+
+        @media (max-width: 768px) {
+          .p-card .pouch {
+            aspect-ratio: 1 / 0.9 !important;
+          }
+          .p-card > div:last-of-type {
+            padding: 12px 12px 14px !important;
+            gap: 5px !important;
+          }
+        }
       `}</style>
     </div>
   )

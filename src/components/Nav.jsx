@@ -10,7 +10,7 @@ export default function Nav({ onCartOpen }) {
   const drawerRef = useRef(null)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
+    const handleScroll = () => setScrolled(window.scrollY > 15)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -44,29 +44,29 @@ export default function Nav({ onCartOpen }) {
   return (
     <>
       <header
+        className="nav-header"
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '16px 32px',
-          background: scrolled ? 'rgba(248,243,230,0.94)' : 'rgba(248,243,230,0.88)',
+          background: scrolled ? 'rgba(248,243,230,0.95)' : 'rgba(248,243,230,0.88)',
           backdropFilter: 'blur(14px)',
           borderBottom: '1px solid var(--line)',
-          transition: 'background 0.3s var(--ease)',
+          transition: 'all 0.3s var(--ease)',
         }}
       >
-        {/* Brandmark with clean circular logo framing */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {/* Brandmark */}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
           <div
             style={{
-              width: 42,
-              height: 42,
+              width: 38,
+              height: 38,
               borderRadius: '50%',
               background: 'var(--paper)',
               border: '1.2px solid var(--gold)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: 4,
+              padding: 3,
               boxShadow: '0 4px 12px rgba(18,36,26,0.08)',
               overflow: 'hidden',
               flex: 'none',
@@ -83,11 +83,11 @@ export default function Nav({ onCartOpen }) {
               }}
             />
           </div>
-          <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 20, letterSpacing: '.01em', color: 'var(--ink)' }}>
+          <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 18, letterSpacing: '.01em', color: 'var(--ink)', lineHeight: 1.1 }}>
             Soulnuts
             <span style={{
               display: 'block', fontFamily: "'Space Mono', monospace",
-              fontSize: '8.5px', letterSpacing: '.22em', color: 'var(--ink-soft)',
+              fontSize: '8px', letterSpacing: '.18em', color: 'var(--ink-soft)',
               fontWeight: 400, marginTop: 1, textTransform: 'uppercase',
             }}>
               The Soulful Way to Snack
@@ -95,14 +95,15 @@ export default function Nav({ onCartOpen }) {
           </span>
         </Link>
 
-        {/* Desktop nav links */}
-        <nav style={{ display: 'flex', gap: 34, alignItems: 'center' }} className="hidden md:flex">
+        {/* Desktop nav links (Strictly hidden on mobile via CSS) */}
+        <nav className="desktop-nav-links">
           {navLinks.map(({ to, label }) => (
             <Link
               key={label}
               to={to}
               style={{
                 fontSize: 14, fontWeight: 600, position: 'relative', padding: '4px 0',
+                color: 'var(--ink)',
               }}
               className="nav-link-item"
             >
@@ -112,13 +113,13 @@ export default function Nav({ onCartOpen }) {
         </nav>
 
         {/* Right actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
           {/* Cart */}
           <button
             onClick={onCartOpen}
             aria-label={`Open cart, ${itemCount} items`}
             style={{
-              position: 'relative', width: 40, height: 40,
+              position: 'relative', width: 38, height: 38,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               borderRadius: '50%', transition: 'background .25s',
             }}
@@ -143,26 +144,26 @@ export default function Nav({ onCartOpen }) {
           {/* Shop Now — desktop only */}
           <Link
             to="/shop"
-            className="btn btn-primary"
-            style={{ padding: '11px 22px', display: 'none' }}
-            id="nav-shop-btn"
+            className="btn btn-primary nav-shop-cta"
+            style={{ padding: '10px 20px', fontSize: 13 }}
           >
             Shop Now
           </Link>
 
           {/* Hamburger — mobile only */}
           <button
-            className="md:hidden"
+            className="mobile-menu-toggle"
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
             style={{
-              width: 38, height: 38, display: 'flex',
+              width: 36, height: 36, display: 'flex',
               flexDirection: 'column', justifyContent: 'center', gap: 5,
+              padding: 4,
             }}
           >
-            <span style={{ width: 20, height: 1.6, background: 'var(--ink)', marginLeft: 'auto', display: 'block' }} />
-            <span style={{ width: 20, height: 1.6, background: 'var(--ink)', marginLeft: 'auto', display: 'block' }} />
-            <span style={{ width: 20, height: 1.6, background: 'var(--ink)', marginLeft: 'auto', display: 'block' }} />
+            <span style={{ width: 20, height: 1.8, background: 'var(--ink)', marginLeft: 'auto', display: 'block', borderRadius: 1 }} />
+            <span style={{ width: 15, height: 1.8, background: 'var(--ink)', marginLeft: 'auto', display: 'block', borderRadius: 1 }} />
+            <span style={{ width: 20, height: 1.8, background: 'var(--ink)', marginLeft: 'auto', display: 'block', borderRadius: 1 }} />
           </button>
         </div>
       </header>
@@ -171,7 +172,7 @@ export default function Nav({ onCartOpen }) {
       {mobileOpen && (
         <div
           style={{
-            position: 'fixed', inset: 0, background: 'rgba(18,36,26,0.4)',
+            position: 'fixed', inset: 0, background: 'rgba(18,36,26,0.5)',
             backdropFilter: 'blur(4px)', zIndex: 150,
           }}
           onClick={() => setMobileOpen(false)}
@@ -182,34 +183,41 @@ export default function Nav({ onCartOpen }) {
       <div
         ref={drawerRef}
         style={{
-          position: 'fixed', top: 0, left: 0, bottom: 0, width: 300, maxWidth: '85vw',
+          position: 'fixed', top: 0, left: 0, bottom: 0, width: 290, maxWidth: '85vw',
           background: 'var(--ivory)', zIndex: 151,
           transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.4s var(--ease)',
-          display: 'flex', flexDirection: 'column', padding: '80px 28px 40px',
-          boxShadow: '30px 0 60px rgba(18,36,26,0.12)',
+          display: 'flex', flexDirection: 'column', padding: '70px 24px 36px',
+          boxShadow: '30px 0 60px rgba(18,36,26,0.15)',
         }}
       >
         <button
           onClick={() => setMobileOpen(false)}
           aria-label="Close menu"
           style={{
-            position: 'absolute', top: 22, right: 22,
+            position: 'absolute', top: 20, right: 20,
             width: 34, height: 34, borderRadius: '50%',
             border: '1px solid var(--line)', display: 'flex',
             alignItems: 'center', justifyContent: 'center',
+            fontSize: 16,
           }}
         >
           ✕
         </button>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+
+        <div style={{ marginBottom: 30, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <img src="/logo.png" alt="Soulnuts" style={{ width: 34, height: 34, borderRadius: '50%' }} />
+          <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600 }}>Soulnuts Menu</span>
+        </div>
+
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {navLinks.map(({ to, label }) => (
             <Link
               key={label}
               to={to}
               onClick={() => setMobileOpen(false)}
               style={{
-                fontSize: 18, fontFamily: "'Fraunces', serif", fontWeight: 500,
+                fontSize: 17, fontFamily: "'Fraunces', serif", fontWeight: 500,
                 padding: '12px 0', borderBottom: '1px solid var(--line)',
                 color: 'var(--ink)',
               }}
@@ -218,6 +226,7 @@ export default function Nav({ onCartOpen }) {
             </Link>
           ))}
         </nav>
+
         <Link
           to="/shop"
           className="btn btn-primary"
@@ -228,10 +237,28 @@ export default function Nav({ onCartOpen }) {
         </Link>
       </div>
 
-      {/* Spacer */}
-      <div style={{ height: 76 }} />
+      {/* Header spacer */}
+      <div className="nav-spacer" />
 
       <style>{`
+        .nav-header {
+          padding: 16px 32px;
+        }
+        .nav-spacer {
+          height: 74px;
+        }
+        .desktop-nav-links {
+          display: flex;
+          gap: 32px;
+          align-items: center;
+        }
+        .mobile-menu-toggle {
+          display: none;
+        }
+        .nav-shop-cta {
+          display: inline-flex !important;
+        }
+
         .nav-link-item::after {
           content: '';
           position: absolute;
@@ -243,8 +270,23 @@ export default function Nav({ onCartOpen }) {
           transition: width 0.3s var(--ease);
         }
         .nav-link-item:hover::after { width: 100%; }
-        @media (min-width: 768px) {
-          #nav-shop-btn { display: inline-flex !important; }
+
+        @media (max-width: 767px) {
+          .nav-header {
+            padding: 12px 18px !important;
+          }
+          .nav-spacer {
+            height: 64px !important;
+          }
+          .desktop-nav-links {
+            display: none !important;
+          }
+          .nav-shop-cta {
+            display: none !important;
+          }
+          .mobile-menu-toggle {
+            display: flex !important;
+          }
         }
       `}</style>
     </>
