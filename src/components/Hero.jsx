@@ -170,7 +170,7 @@ export default function Hero() {
               className="wheel-orbit"
               style={{ animation: 'spin 46s linear infinite' }}
             >
-              {/* Center with real logo.png */}
+              {/* Center circle framing transparent logo.png */}
               <div
                 style={{
                   position: 'absolute',
@@ -180,24 +180,24 @@ export default function Hero() {
                   width: 150,
                   height: 150,
                   borderRadius: '50%',
-                  background: 'var(--pine)',
+                  background: 'var(--paper)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 30px 60px -20px rgba(31,59,44,.55)',
+                  boxShadow: '0 24px 60px -20px rgba(31,59,44,.45), 0 0 20px rgba(198,161,91,0.2)',
                   border: '2px solid var(--gold)',
                   overflow: 'hidden',
-                  padding: 12,
+                  padding: 14,
                 }}
               >
                 <img
                   src="/logo.png"
                   alt="Soulnuts Logo"
                   style={{
-                    width: 110,
-                    height: 110,
+                    width: '100%',
+                    height: '100%',
                     objectFit: 'contain',
-                    filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.3))',
+                    borderRadius: '50%',
                   }}
                 />
               </div>

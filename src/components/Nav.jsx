@@ -54,22 +54,35 @@ export default function Nav({ onCartOpen }) {
           transition: 'background 0.3s var(--ease)',
         }}
       >
-        {/* Brandmark with real logo.png */}
+        {/* Brandmark with clean circular logo framing */}
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <img
-            src="/logo.png"
-            alt="Soulnuts Logo"
+          <div
             style={{
               width: 42,
               height: 42,
-              objectFit: 'contain',
               borderRadius: '50%',
-              background: 'var(--pine)',
+              background: 'var(--paper)',
+              border: '1.2px solid var(--gold)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               padding: 4,
-              border: '1px solid var(--gold)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              boxShadow: '0 4px 12px rgba(18,36,26,0.08)',
+              overflow: 'hidden',
+              flex: 'none',
             }}
-          />
+          >
+            <img
+              src="/logo.png"
+              alt="Soulnuts Logo"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                borderRadius: '50%',
+              }}
+            />
+          </div>
           <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 20, letterSpacing: '.01em', color: 'var(--ink)' }}>
             Soulnuts
             <span style={{

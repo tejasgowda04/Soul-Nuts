@@ -45,10 +45,10 @@ export default function SplashScreen({ onComplete }) {
           <div
             style={{
               position: 'absolute',
-              width: 500,
-              height: 500,
+              width: 600,
+              height: 600,
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(198,161,91,0.18) 0%, rgba(31,59,44,0) 70%)',
+              background: 'radial-gradient(circle, rgba(198,161,91,0.15) 0%, rgba(31,59,44,0) 70%)',
               pointerEvents: 'none',
             }}
           />
@@ -66,35 +66,37 @@ export default function SplashScreen({ onComplete }) {
           >
             {/* Outer animated gold ring around logo */}
             <motion.div
-              initial={{ scale: 0.6, opacity: 0, rotate: -45 }}
+              initial={{ scale: 0.7, opacity: 0, rotate: -30 }}
               animate={{ scale: 1, opacity: 1, rotate: 0 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 position: 'relative',
-                width: 130,
-                height: 130,
+                width: 140,
+                height: 140,
                 borderRadius: '50%',
                 border: '1.5px solid var(--gold)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 20px 50px rgba(0,0,0,0.3), inset 0 0 20px rgba(198,161,91,0.2)',
-                background: 'var(--ink)',
-                marginBottom: 24,
+                boxShadow: '0 20px 50px rgba(0,0,0,0.35), 0 0 30px rgba(198,161,91,0.25)',
+                background: 'var(--paper)',
+                marginBottom: 26,
+                padding: 14,
+                overflow: 'hidden',
               }}
             >
               {/* Logo Image */}
               <motion.img
                 src="/logo.png"
                 alt="Soulnuts Logo"
-                initial={{ scale: 0.7, opacity: 0 }}
+                initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.9, delay: 0.3, ease: 'easeOut' }}
+                transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
                 style={{
-                  width: 90,
-                  height: 90,
+                  width: '100%',
+                  height: '100%',
                   objectFit: 'contain',
-                  filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))',
+                  borderRadius: '50%',
                 }}
               />
             </motion.div>
@@ -109,7 +111,7 @@ export default function SplashScreen({ onComplete }) {
               <h1
                 style={{
                   fontFamily: "'Fraunces', serif",
-                  fontSize: 'clamp(36px, 6vw, 56px)',
+                  fontSize: 'clamp(38px, 6vw, 58px)',
                   fontWeight: 600,
                   letterSpacing: '0.04em',
                   color: 'var(--ivory)',
