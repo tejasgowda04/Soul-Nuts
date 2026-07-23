@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soulnuts — The Soulful Way to Snack</title>
+<meta name="description" content="Premium, mindfully sourced dry fruits, nuts, seeds & home-made ladoos. Snack clean. Feel great.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,440;0,9..144,560;0,9..144,650;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12241a;
+  --pine:#1f3b2c;
+  --pine-2:#274732;
+  --ivory:#f8f3e6;
+  --ivory-2:#f0e9d6;
+  --paper:#fffdf8;
+  --gold:#c6a15b;
+  --gold-soft:#e3cd97;
+  --rust:#a6541e;
+  --rust-2:#8c4419;
+  --sage:#7e8f60;
+  --ink-soft:rgba(18,36,26,0.62);
+  --line:rgba(18,36,26,0.12);
+  --line-dark:rgba(248,243,230,0.14);
+  --shadow:0 24px 60px -30px rgba(18,36,26,0.45);
+  --ease:cubic-bezier(.22,.9,.28,1);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--ivory);
+  color:var(--ink);
+  font-family:'Manrope',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+h1,h2,h3{font-family:'Fraunces',serif;margin:0;font-weight:560;letter-spacing:-0.01em;}
+p{margin:0;}
+.eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:11.5px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--rust);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--rust);display:inline-block;}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+:focus-visible{outline:2px solid var(--rust);outline-offset:3px;border-radius:4px;}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+}
+
+/* ===== NAV ===== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 32px;
+  background:rgba(248,243,230,0.86);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  transition:background .3s var(--ease);
+}
+.brandmark{display:flex;align-items:center;gap:11px;}
+.brandmark .logo-emblem{width:38px;height:38px;flex:none;}
+.brandmark .word{font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:.01em;}
+.brandmark .word span{display:block;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:var(--ink-soft);font-weight:400;margin-top:1px;}
+.nav-links{display:flex;gap:34px;align-items:center;}
+.nav-links a{font-size:14px;font-weight:600;position:relative;padding:4px 0;}
+.nav-links a::after{content:"";position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:var(--rust);transition:width .3s var(--ease);}
+.nav-links a:hover::after{width:100%;}
+.nav-right{display:flex;align-items:center;gap:18px;}
+.icon-btn{position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .25s;}
+.icon-btn:hover{background:var(--ivory-2);}
+.cart-count{
+  position:absolute;top:-2px;right:-2px;background:var(--rust);color:#fff;
+  font-family:'Space Mono',monospace;font-size:10px;width:17px;height:17px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:14px 26px;border-radius:100px;font-size:13.5px;font-weight:700;
+  letter-spacing:.02em;transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.btn-primary{background:var(--rust);color:#fff;box-shadow:0 14px 30px -12px rgba(166,84,30,.6);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 34px -10px rgba(166,84,30,.7);}
+.btn-outline{border:1.4px solid var(--ink);color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:var(--ivory);}
+.btn-ghost-light{border:1.4px solid rgba(248,243,230,.5);color:var(--ivory);}
+.btn-ghost-light:hover{background:var(--ivory);color:var(--pine);}
+.menu-toggle{display:none;width:38px;height:38px;flex-direction:column;justify-content:center;gap:5px;}
+.menu-toggle span{width:20px;height:1.6px;background:var(--ink);margin-left:auto;}
+
+/* ===== HERO ===== */
+.hero{position:relative;padding:150px 0 0;background:var(--ivory);overflow:hidden;}
+.hero-inner{
+  max-width:1240px;margin:0 auto;padding:0 32px 90px;
+  display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;
+}
+.hero-copy h1{
+  font-size:clamp(42px,5.6vw,74px);line-height:0.98;margin:20px 0 24px;
+}
+.hero-copy h1 em{font-style:italic;font-weight:400;color:var(--rust);}
+.hero-copy p.lede{font-size:17px;line-height:1.65;color:var(--ink-soft);max-width:440px;margin-bottom:34px;}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px;}
+.trust-row{display:flex;gap:26px;flex-wrap:wrap;}
+.trust-row .t-item{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+.trust-row .t-item .dot{width:6px;height:6px;border-radius:50%;background:var(--sage);}
+
+.hero-wheel-stage{position:relative;height:520px;display:flex;align-items:center;justify-content:center;}
+.wheel-orbit{
+  position:relative;width:420px;height:420px;
+  animation:spin 46s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.wheel-orbit.paused{animation-play-state:paused;}
+.wheel-center{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:150px;height:150px;border-radius:50%;background:var(--pine);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 30px 60px -20px rgba(31,59,44,.55);
+  border:1px solid var(--line-dark);
+}
+.wheel-center .logo-emblem{width:78px;height:78px;}
+.wheel-node{
+  position:absolute;top:50%;left:50%;width:74px;height:74px;margin:-37px;
+  transform-origin:center;
+}
+.wheel-node .chip{
+  width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  animation:counterspin 46s linear infinite;
+  box-shadow:0 14px 28px -12px rgba(18,36,26,.35);
+  border:2px solid var(--paper);
+}
+@keyframes counterspin{to{transform:rotate(-360deg);}}
+.wheel-node .chip span{font-family:'Space Mono',monospace;font-size:9.5px;font-weight:700;color:var(--paper);letter-spacing:.02em;text-align:center;line-height:1.15;}
+.hero-ring{position:absolute;border:1px dashed rgba(18,36,26,.18);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
+.ring-a{width:340px;height:340px;}
+.ring-b{width:480px;height:480px;}
+
+.marquee-strip{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--ivory-2);padding:14px 0;overflow:hidden;white-space:nowrap;
+}
+.marquee-track{display:inline-flex;animation:marquee 28s linear infinite;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.marquee-track span{
+  font-family:'Fraunces',serif;font-style:italic;font-size:20px;font-weight:400;
+  color:var(--ink-soft);padding:0 26px;display:inline-flex;align-items:center;gap:26px;
+}
+.marquee-track span::after{content:"•";color:var(--rust);font-style:normal;}
+
+/* ===== PROMISE STRIP ===== */
+.promise{background:var(--pine);padding:56px 0;color:var(--ivory);}
+.promise-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;}
+.promise-item{display:flex;flex-direction:column;gap:12px;padding:0 10px;border-left:1px solid var(--line-dark);}
+.promise-item:first-child{border-left:none;}
+.promise-item .p-icon{width:30px;height:30px;color:var(--gold-soft);}
+.promise-item h4{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin:0;}
+.promise-item p{font-size:12.5px;color:rgba(248,243,230,.65);line-height:1.5;}
+
+/* ===== SECTION HEADERS ===== */
+.section{padding:110px 0;}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:30px;flex-wrap:wrap;}
+.section-head h2{font-size:clamp(30px,3.6vw,46px);max-width:600px;}
+.section-head p{max-width:340px;color:var(--ink-soft);font-size:14.5px;line-height:1.6;padding-bottom:4px;}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ===== CATEGORIES ===== */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.cat-card{
+  position:relative;border-radius:22px;padding:30px 24px;min-height:280px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;isolation:isolate;transition:transform .5s var(--ease);
+  border:1px solid var(--line);
+}
+.cat-card:hover{transform:translateY(-8px);}
+.cat-card .blob{position:absolute;top:-30px;right:-30px;width:150px;height:150px;border-radius:58% 42% 63% 37%/45% 55% 45% 55%;opacity:.35;z-index:-1;filter:blur(2px);}
+.cat-card h3{font-size:21px;margin-bottom:8px;}
+.cat-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-bottom:14px;}
+.cat-card .cat-link{font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;color:var(--rust);}
+.cat-card .cat-link svg{width:13px;height:13px;transition:transform .3s var(--ease);}
+.cat-card:hover .cat-link svg{transform:translateX(4px);}
+
+/* ===== PRODUCTS ===== */
+.filter-tabs{display:flex;gap:10px;margin-bottom:40px;flex-wrap:wrap;}
+.filter-tab{
+  padding:10px 20px;border-radius:100px;font-size:12.5px;font-weight:700;
+  border:1.4px solid var(--line);background:var(--paper);transition:all .3s var(--ease);
+}
+.filter-tab.active,.filter-tab:hover{background:var(--ink);color:var(--ivory);border-color:var(--ink);}
+.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.p-card{
+  background:var(--paper);border-radius:20px;border:1px solid var(--line);overflow:hidden;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease);display:flex;flex-direction:column;
+}
+.p-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
+.pouch{position:relative;aspect-ratio:1/1.05;overflow:hidden;}
+.pouch .zip{position:absolute;top:14px;left:14px;right:14px;height:6px;border-radius:6px;background:rgba(255,255,255,.35);}
+.pouch .label{
+  position:absolute;top:26px;left:50%;transform:translateX(-50%);
+  background:var(--paper);border-radius:10px;padding:8px 14px 7px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 8px 18px -8px rgba(0,0,0,.25);z-index:3;
+}
+.pouch .label .mini-emblem{width:20px;height:20px;}
+.pouch .label span{font-family:'Space Mono',monospace;font-size:6.5px;letter-spacing:.1em;color:var(--pine);font-weight:700;}
+.grain-dot{position:absolute;border-radius:50%;}
+.p-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.p-cat-tag{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);}
+.p-body h4{font-size:17px;font-weight:600;}
+.p-body .p-desc{font-size:12px;color:var(--ink-soft);line-height:1.5;min-height:32px;}
+.p-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:10px;}
+.p-price{font-family:'Space Mono',monospace;font-weight:700;font-size:15px;}
+.p-price small{font-weight:400;color:var(--ink-soft);font-size:10.5px;}
+.add-btn{
+  width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--ivory);
+  display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);flex:none;
+}
+.add-btn:hover{background:var(--rust);transform:rotate(90deg);}
+.add-btn svg{width:16px;height:16px;}
+
+/* ===== LADOOS SPOTLIGHT ===== */
+.ladoos{background:var(--pine);color:var(--ivory);position:relative;overflow:hidden;}
+.ladoos-inner{display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;align-items:center;}
+.ladoo-art{position:relative;height:420px;}
+.ladoo-ball{position:absolute;border-radius:50%;box-shadow:inset -10px -14px 22px rgba(0,0,0,.28),0 20px 40px -16px rgba(0,0,0,.5);}
+.ladoos-copy .eyebrow{color:var(--gold-soft);}
+.ladoos-copy .eyebrow::before{background:var(--gold-soft);}
+.ladoos-copy h2{font-size:clamp(30px,3.6vw,44px);margin:18px 0 20px;color:var(--ivory);}
+.ladoos-copy p{color:rgba(248,243,230,.72);font-size:15px;line-height:1.7;max-width:460px;margin-bottom:26px;}
+.tag-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
+.tag-pill{
+  font-family:'Space Mono',monospace;font-size:10.5px;padding:8px 14px;border-radius:100px;
+  border:1px solid var(--line-dark);color:var(--gold-soft);
+}
+
+/* ===== POUCH PACK BANNER ===== */
+.pouch-banner{background:var(--ivory-2);}
+.pb-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:40px;
+  border:1px solid var(--line);border-radius:26px;padding:50px 56px;background:var(--paper);
+  flex-wrap:wrap;
+}
+.pb-left{max-width:480px;}
+.pb-badge{display:inline-block;background:var(--rust);color:#fff;font-family:'Space Mono',monospace;font-size:10px;padding:6px 12px;border-radius:100px;margin-bottom:16px;letter-spacing:.08em;}
+.pb-left h3{font-size:clamp(24px,3vw,32px);margin-bottom:12px;}
+.pb-left p{color:var(--ink-soft);font-size:14px;line-height:1.6;}
+.pb-visual{display:flex;gap:8px;flex:none;}
+.pb-pill{width:20px;height:56px;border-radius:8px;}
+
+/* ===== TESTIMONIALS ===== */
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.t-card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:18px;}
+.t-stars{display:flex;gap:3px;color:var(--gold);}
+.t-stars svg{width:14px;height:14px;}
+.t-card q{font-family:'Fraunces',serif;font-style:italic;font-size:17px;line-height:1.5;font-weight:400;}
+.t-who{display:flex;align-items:center;gap:10px;margin-top:auto;}
+.t-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#fff;}
+.t-who span{font-size:12.5px;font-weight:700;display:block;}
+.t-who small{font-size:11px;color:var(--ink-soft);}
+
+/* ===== NEWSLETTER CTA ===== */
+.news{background:var(--ink);color:var(--ivory);text-align:center;position:relative;overflow:hidden;}
+.news-inner{max-width:640px;margin:0 auto;padding:0 24px;position:relative;z-index:2;}
+.news h2{font-size:clamp(32px,4.4vw,52px);margin:20px 0 16px;}
+.news h2 em{color:var(--gold-soft);font-style:italic;font-weight:400;}
+.news p{color:rgba(248,243,230,.6);font-size:15px;margin-bottom:34px;}
+.news-form{display:flex;gap:10px;justify-content:center;max-width:420px;margin:0 auto;flex-wrap:wrap;}
+.news-form input{
+  flex:1;min-width:220px;padding:15px 20px;border-radius:100px;border:1px solid var(--line-dark);
+  background:rgba(248,243,230,.06);color:var(--ivory);font-family:inherit;font-size:13.5px;
+}
+.news-form input::placeholder{color:rgba(248,243,230,.4);}
+.news-note{margin-top:14px;font-size:11.5px;color:rgba(248,243,230,.4);}
+
+/* ===== FOOTER ===== */
+footer{background:var(--pine);color:var(--ivory);padding:80px 0 26px;}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;margin-bottom:60px;}
+.foot-brand .brandmark .word{color:var(--ivory);}
+.foot-brand p{color:rgba(248,243,230,.6);font-size:13px;line-height:1.7;margin:16px 0 20px;max-width:280px;}
+.foot-social{display:flex;gap:10px;}
+.foot-social a{width:36px;height:36px;border-radius:50%;border:1px solid var(--line-dark);display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.foot-social a:hover{background:var(--gold);border-color:var(--gold);color:var(--pine);}
+.foot-social svg{width:15px;height:15px;}
+.foot-col h5{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:18px;}
+.foot-col a,.foot-col p{display:block;font-size:13.5px;color:rgba(248,243,230,.72);margin-bottom:12px;}
+.foot-col a:hover{color:var(--ivory);}
+.foot-bottom{border-top:1px solid var(--line-dark);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.foot-bottom p{font-size:11.5px;color:rgba(248,243,230,.45);}
+
+/* ===== CART DRAWER ===== */
+.cart-overlay{
+  position:fixed;inset:0;background:rgba(18,36,26,.5);backdrop-filter:blur(3px);
+  opacity:0;pointer-events:none;transition:opacity .4s var(--ease);z-index:200;
+}
+.cart-overlay.open{opacity:1;pointer-events:auto;}
+.cart-panel{
+  position:fixed;top:0;right:0;bottom:0;width:400px;max-width:92vw;background:var(--paper);
+  z-index:201;transform:translateX(100%);transition:transform .5s var(--ease);
+  display:flex;flex-direction:column;box-shadow:-30px 0 60px rgba(0,0,0,.15);
+}
+.cart-panel.open{transform:translateX(0);}
+.cart-head{display:flex;align-items:center;justify-content:space-between;padding:26px 26px 18px;border-bottom:1px solid var(--line);}
+.cart-head h3{font-size:20px;}
+.cart-close{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);}
+.cart-close:hover{background:var(--ivory-2);}
+.cart-items{flex:1;overflow-y:auto;padding:16px 26px;display:flex;flex-direction:column;gap:16px;}
+.cart-empty{margin:auto;text-align:center;color:var(--ink-soft);font-size:13.5px;padding:40px 0;}
+.cart-item{display:flex;gap:14px;align-items:center;}
+.ci-thumb{width:56px;height:56px;border-radius:12px;flex:none;position:relative;overflow:hidden;}
+.ci-info{flex:1;}
+.ci-info h5{font-size:13.5px;font-weight:700;margin-bottom:4px;}
+.ci-info .ci-price{font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft);}
+.ci-qty{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:100px;padding:4px 6px;}
+.ci-qty button{width:20px;height:20px;font-size:14px;font-weight:700;}
+.ci-qty span{font-family:'Space Mono',monospace;font-size:12px;min-width:14px;text-align:center;}
+.ci-remove{color:var(--rust);font-size:11px;font-weight:700;margin-left:8px;}
+.cart-foot{border-top:1px solid var(--line);padding:22px 26px 28px;}
+.cart-subtotal{display:flex;justify-content:space-between;margin-bottom:16px;font-size:14px;font-weight:700;}
+.cart-subtotal span:last-child{font-family:'Space Mono',monospace;}
+.cart-foot .btn{width:100%;justify-content:center;}
+.cart-foot small{display:block;text-align:center;margin-top:12px;font-size:11px;color:var(--ink-soft);}
+
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:var(--ivory);padding:14px 24px;border-radius:100px;font-size:13px;font-weight:600;
+  opacity:0;pointer-events:none;transition:all .4s var(--ease);z-index:300;display:flex;align-items:center;gap:10px;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast svg{width:15px;height:15px;color:var(--sage);}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:980px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-wheel-stage{height:340px;}
+  .wheel-orbit{width:280px;height:280px;}
+  .ring-a{width:220px;height:220px;}
+  .ring-b{width:320px;height:320px;}
+  .wheel-center{width:100px;height:100px;}
+  .wheel-center .logo-emblem{width:52px;height:52px;}
+  .wheel-node{width:56px;height:56px;margin:-28px;}
+  .promise-grid{grid-template-columns:repeat(2,1fr);gap:24px 20px;}
+  .promise-item{border-left:none;padding:0;}
+  .cat-grid{grid-template-columns:repeat(2,1fr);}
+  .product-grid{grid-template-columns:repeat(2,1fr);}
+  .ladoos-inner{grid-template-columns:1fr;}
+  .ladoo-art{height:280px;}
+  .t-grid{grid-template-columns:1fr;}
+  .foot-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:680px){
+  .nav-links{display:none;}
+  .menu-toggle{display:flex;}
+  .wrap{padding:0 20px;}
+  .hero-inner{padding:0 20px 60px;}
+  .section{padding:70px 0;}
+  .cat-grid{grid-template-columns:1fr;}
+  .product-grid{grid-template-columns:1fr 1fr;gap:14px;}
+  .foot-grid{grid-template-columns:1fr;gap:36px;}
+  .pb-inner{padding:34px 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <a href="#top" class="brandmark">
+    <svg class="logo-emblem" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="28" stroke="#c6a15b" stroke-width="1.4"/>
+      <path d="M30 44V22M30 22C24 22 20 17 20 12C25 12 29 15 30 20C31 15 35 12 40 12C40 17 36 22 30 22Z" stroke="#1f3b2c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M23 32c-4 1-7 4-7 8M37 32c4 1 7 4 7 8M30 44c0-5 2-8 5-10M30 44c0-5-2-8-5-10" stroke="#1f3b2c" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="16" cy="41" r="2.2" fill="#a6541e"/><circle cx="44" cy="41" r="2.2" fill="#7e8f60"/><circle cx="30" cy="48" r="2.2" fill="#c6a15b"/>
+    </svg>
+    <span class="word">Soulnuts<span>THE SOULFUL WAY TO SNACK</span></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#categories">Shop</a>
+    <a href="#shop">Best Sellers</a>
+    <a href="#ladoos">Ladoos</a>
+    <a href="#story">Our Story</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <button class="icon-btn" id="cartToggle" aria-label="Open cart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L22 7H6"/><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <a href="#shop" class="btn btn-primary" style="padding:11px 22px;">Shop Now</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">Premium Dry Fruits &amp; Nuts</span>
+      <h1>Every handful<br>has a <em>heart.</em></h1>
+      <p class="lede">Mindfully sourced almonds, pistachios, cashews, seeds & home-made ladoos — cleaned, curated, and packed with soul. No shortcuts, no refined sugar, just the honest crunch nature intended.</p>
+      <div class="hero-cta">
+        <a href="#shop" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          Shop the Harvest
+        </a>
+        <a href="https://wa.me/918310440354?text=Hi%20Soulnuts%2C%20I%27d%20like%20to%20know%20more%20about%20your%20products!" target="_blank" rel="noopener" class="btn btn-outline">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.1-.1.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.5-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.3 1 1-3.2-.2-.3C3.5 14.6 3 13.3 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+          Order on WhatsApp
+        </a>
+      </div>
+      <div class="trust-row">
+        <div class="t-item"><span class="dot"></span>100% Natural</div>
+        <div class="t-item"><span class="dot"></span>No Refined Sugar</div>
+        <div class="t-item"><span class="dot"></span>Hygienic Packaging</div>
+      </div>
+    </div>
+    <div class="hero-wheel-stage">
+      <div class="hero-ring ring-a"></div>
+      <div class="hero-ring ring-b"></div>
+      <div class="wheel-orbit" id="wheelOrbit">
+        <div class="wheel-center">
+          <svg class="logo-emblem" viewBox="0 0 60 60" fill="none">
+            <path d="M30 44V22M30 22C24 22 20 17 20 12C25 12 29 15 30 20C31 15 35 12 40 12C40 17 36 22 30 22Z" stroke="#f8f3e6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M23 32c-4 1-7 4-7 8M37 32c4 1 7 4 7 8M30 44c0-5 2-8 5-10M30 44c0-5-2-8-5-10" stroke="#f8f3e6" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="16" cy="41" r="2.2" fill="#c6a15b"/><circle cx="44" cy="41" r="2.2" fill="#c6a15b"/><circle cx="30" cy="48" r="2.2" fill="#c6a15b"/>
+          </svg>
+        </div>
+        <!-- nodes placed by JS -->
+      </div>
+    </div>
+  </div>
+  <div class="marquee-strip">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+</section>
+
+<!-- ============ PROMISE STRIP ============ -->
+<section class="promise">
+  <div class="wrap promise-grid">
+    <div class="promise-item">
+      <svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4l-6.3 4.4 2.3-7.2-6-4.4h7.6z"/></svg>
+      <h4>Premium Quality</h4>
+      <p>Hand-picked lots, graded for size and freshness before they ever reach a pouch.</p>
+    </div>
+    <div class="promise-item">
+      <svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C7 6 4 10 4 14a8 8 0 0016 0c0-4-3-8-8-12z"/></svg>
+      <h4>100% Natural</h4>
+      <p>Nothing added, nothing hidden — just the ingredient, exactly as harvested.</p>
+    </div>
+    <div class="promise-item">
+      <svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 10-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+      <h4>Healthy &amp; Wholesome</h4>
+      <p>Everyday nutrition built for real routines, from morning oats to evening cravings.</p>
+    </div>
+    <div class="promise-item">
+      <svg class="p-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="8" width="14" height="10" rx="1.5"/><path d="M17 11h2.5l1.5 3v4h-4"/><circle cx="7.5" cy="19.5" r="1.6"/><circle cx="17.5" cy="19.5" r="1.6"/></svg>
+      <h4>Delivered with Care</h4>
+      <p>Sealed fresh, packed gently, and out the door on the day you order.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATEGORIES ============ -->
+<section class="section" id="categories">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Explore the harvest board</h2>
+      <p>Four ways to snack soulfully — from raw nuts to ready-made comfort.</p>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="section" id="shop" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Best of the board</h2>
+      <p>Our most-loved pouches, weighed and sealed the day they ship.</p>
+    </div>
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="nuts">Dry Fruits &amp; Nuts</button>
+      <button class="filter-tab" data-filter="seeds">Seeds &amp; Blends</button>
+      <button class="filter-tab" data-filter="ladoos">Ladoos</button>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ============ LADOOS SPOTLIGHT ============ -->
+<section class="section ladoos" id="ladoos">
+  <div class="wrap ladoos-inner">
+    <div class="ladoo-art reveal" id="ladooArt"></div>
+    <div class="ladoos-copy reveal">
+      <span class="eyebrow">Home-Made · Small Batch</span>
+      <h2>Soulnuts Ladoos, rolled by hand.</h2>
+      <p>Dates, almonds, walnuts and pistachios, slow-roasted and bound without a grain of refined sugar. A treat you can actually feel good about — made the way your grandmother would approve of.</p>
+      <div class="tag-row">
+        <span class="tag-pill">No Refined Sugar</span>
+        <span class="tag-pill">Crafted with Love</span>
+        <span class="tag-pill">Ready to Dispatch</span>
+      </div>
+      <a href="https://wa.me/918310440354?text=Hi%20Soulnuts%2C%20I%27d%20like%20to%20order%20the%20Ladoos%20box!" target="_blank" rel="noopener" class="btn btn-ghost-light">Order Ladoos on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POUCH PACK BANNER ============ -->
+<section class="section pouch-banner">
+  <div class="wrap">
+    <div class="pb-inner reveal">
+      <div class="pb-left">
+        <span class="pb-badge">30-DAY DAILY POUCH PACK</span>
+        <h3>One pouch a day, for a healthier you.</h3>
+        <p>Thirty single-serve pouches, portioned and sealed — your entire month of clean snacking, sorted in one box.</p>
+      </div>
+      <div class="pb-visual" id="pbVisual"></div>
+      <a href="https://wa.me/918310440354?text=Hi%20Soulnuts%2C%20I%27d%20like%20to%20order%20the%2030-Day%20Pouch%20Pack!" target="_blank" rel="noopener" class="btn btn-primary">Get the Pack</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section" id="story">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Loved, one handful at a time</h2>
+      <p>A few words from people who've made Soulnuts part of their routine.</p>
+    </div>
+    <div class="t-grid" id="testimonialGrid"></div>
+  </div>
+</section>
+
+<!-- ============ NEWSLETTER CTA ============ -->
+<section class="news section">
+  <div class="news-inner reveal">
+    <span class="eyebrow" style="color:var(--gold-soft);">Stay in the Loop</span>
+    <h2>Something <em>soulful</em><br>is always on the way.</h2>
+    <p>New blends, festive gift boxes and early access — straight to your inbox.</p>
+    <form class="news-form" id="newsForm">
+      <input type="email" placeholder="you@email.com" required aria-label="Email address">
+      <button type="submit" class="btn btn-primary">Notify Me</button>
+    </form>
+    <p class="news-note">No spam, ever. Just soulful updates.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#top" class="brandmark">
+          <svg class="logo-emblem" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="30" r="28" stroke="#c6a15b" stroke-width="1.4"/>
+            <path d="M30 44V22M30 22C24 22 20 17 20 12C25 12 29 15 30 20C31 15 35 12 40 12C40 17 36 22 30 22Z" stroke="#f8f3e6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M23 32c-4 1-7 4-7 8M37 32c4 1 7 4 7 8M30 44c0-5 2-8 5-10M30 44c0-5-2-8-5-10" stroke="#f8f3e6" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span class="word">Soulnuts</span>
+        </a>
+        <p>Premium, mindfully sourced dry fruits, nuts, seeds &amp; home-made ladoos. The soulful way to snack.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Shop</h5>
+        <a href="#shop">Dry Fruits &amp; Nuts</a>
+        <a href="#shop">Seeds &amp; Blends</a>
+        <a href="#ladoos">Ladoos</a>
+        <a href="#shop">30-Day Pouch Pack</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="#story">Our Story</a>
+        <a href="#categories">Sourcing</a>
+        <a href="#contact">Contact</a>
+        <a href="#">Track Order</a>
+      </div>
+      <div class="foot-col">
+        <h5>Get in Touch</h5>
+        <p>Mandya &amp; Mysuru, Karnataka</p>
+        <a href="https://wa.me/918310440354">+91 83104 40354</a>
+        <a href="#">@soln_uts</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 Soulnuts. All rights reserved.</p>
+      <p>Demo concept site — crafted for Soulnuts brand review.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <h3>Your Bag</h3>
+    <button class="cart-close" id="cartClose" aria-label="Close cart">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">₹0</span></div>
+    <a href="#" class="btn btn-primary" id="checkoutBtn" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+      Checkout on WhatsApp
+    </a>
+    <small>Demo cart — orders are confirmed via WhatsApp.</small>
+  </div>
+</aside>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toastMsg">Added to bag</span>
+</div>
+
+<script>
+/* ============ DATA ============ */
+const PALETTE = {
+  almond:['#c99a63','#e6c896'], cashew:['#e9dfc2','#f5efdd'], pistachio:['#7e8f60','#a9bb85'],
+  walnut:['#6e4a2e','#96684a'], date:['#4a2e1c','#6e4530'], fig:['#8b4a49','#b06e6c'],
+  raisin:['#3c2a1e','#5c4232'], seed:['#8a7a4d','#b6a76e'], ladoo:['#7a4a24','#a6541e']
+};
+const products = [
+  {id:1,name:'Californian Almonds',cat:'nuts',key:'almond',price:299,unit:'250g',desc:'Crunchy, protein-rich almonds — daily-habit ready.'},
+  {id:2,name:'Whole Cashews',cat:'nuts',key:'cashew',price:349,unit:'250g',desc:'Creamy W240 grade cashews, hand-sorted.'},
+  {id:3,name:'Iranian Pistachios',cat:'nuts',key:'pistachio',price:499,unit:'250g',desc:'Naturally split, roasted lightly with sea salt.'},
+  {id:4,name:'Kashmiri Walnuts',cat:'nuts',key:'walnut',price:399,unit:'250g',desc:'Light-coloured halves, rich in omega-3.'},
+  {id:5,name:'Stuffed Dates',cat:'nuts',key:'date',price:299,unit:'200g',desc:'Soft dates stuffed with almond &amp; walnut.'},
+  {id:6,name:'Turkish Figs',cat:'nuts',key:'fig',price:349,unit:'200g',desc:'Sun-dried, naturally sweet, fibre-rich figs.'},
+  {id:7,name:'Golden Raisins',cat:'nuts',key:'raisin',price:199,unit:'200g',desc:'Seedless, plump and naturally sun-sweetened.'},
+  {id:8,name:'Trail Mix Deluxe',cat:'seeds',key:'seed',price:349,unit:'200g',desc:'Nuts, seeds &amp; dried fruit — the everyday mix.'},
+  {id:9,name:'Chia &amp; Flax Blend',cat:'seeds',key:'seed',price:249,unit:'200g',desc:'Omega-rich seed blend for smoothies &amp; bowls.'},
+  {id:10,name:'Pumpkin &amp; Sunflower',cat:'seeds',key:'seed',price:229,unit:'200g',desc:'Roasted seed mix, high in magnesium &amp; zinc.'},
+  {id:11,name:'Soulnuts Ladoos',cat:'ladoos',key:'ladoo',price:399,unit:'Box of 12',desc:'Date, nut &amp; seed ladoos — no refined sugar.'},
+  {id:12,name:'30-Day Pouch Pack',cat:'ladoos',key:'seed',price:1299,unit:'30 pouches',desc:'A month of portioned, ready-to-grab snacking.'},
+];
+const catData = [
+  {title:'Dry Fruits &amp; Nuts',desc:'Almonds, walnuts, pistachios, cashews, dates, apricots, figs &amp; raisins.',color:'almond'},
+  {title:'Seeds &amp; Blends',desc:'Chia, flax, pumpkin, sunflower &amp; curated trail mixes.',color:'seed'},
+  {title:'Soulnuts Ladoos',desc:'Home-made, hand-rolled, without a grain of refined sugar.',color:'ladoo'},
+  {title:'30-Day Pouch Pack',desc:'One portioned pouch a day — a full month of clean snacking.',color:'pistachio'},
+];
+const testimonials = [
+  {q:"The pistachios taste like they were roasted yesterday. Genuinely the freshest I've had.",n:'Ananya R.',t:'Verified Buyer',c:'#7e8f60'},
+  {q:'Ordered the ladoo box for Diwali gifting — every single person asked where it was from.',n:'Karthik M.',t:'Verified Buyer',c:'#a6541e'},
+  {q:'Packaging feels premium and the pouches actually stay fresh till the last handful.',n:'Divya S.',t:'Verified Buyer',c:'#c6a15b'},
+];
+
+/* ============ RENDER: WHEEL ============ */
+const wheel = document.getElementById('wheelOrbit');
+const wheelLabels = [['Almond','#c99a63'],['Pistachio','#7e8f60'],['Cashew','#e9dfc2'],['Walnut','#6e4a2e'],['Fig','#8b4a49'],['Date','#4a2e1c'],['Seed Mix','#8a7a4d'],['Raisin','#3c2a1e']];
+wheelLabels.forEach((item,i)=>{
+  const angle = (360/wheelLabels.length)*i;
+  const node = document.createElement('div');
+  node.className='wheel-node';
+  node.style.transform = `rotate(${angle}deg) translate(180px) rotate(-${angle}deg)`;
+  node.innerHTML = `<div class="chip" style="background:${item[1]}"><span>${item[0]}</span></div>`;
+  wheel.appendChild(node);
+});
+document.querySelector('.hero-wheel-stage').addEventListener('mouseenter',()=>wheel.classList.add('paused'));
+document.querySelector('.hero-wheel-stage').addEventListener('mouseleave',()=>wheel.classList.remove('paused'));
+
+/* ============ RENDER: MARQUEE ============ */
+const marqueeWords = ['THE SOULFUL WAY TO SNACK','PREMIUM GLOBAL IMPORTS','MINDFULLY SOURCED','NO REFINED SUGAR','SNACK CLEAN. FEEL GREAT.'];
+const marqueeHtml = marqueeWords.map(w=>`<span>${w}</span>`).join('');
+document.getElementById('marqueeTrack').innerHTML = marqueeHtml + marqueeHtml;
+
+/* ============ RENDER: CATEGORIES ============ */
+const catGrid = document.getElementById('catGrid');
+const catBg = {almond:'#f3e6d1', seed:'#eaeedd', ladoo:'#f1ddd0', pistachio:'#e7ecdc'};
+catData.forEach(c=>{
+  const el = document.createElement('div');
+  el.className='cat-card';
+  el.style.background = catBg[c.color] || '#f3e6d1';
+  el.innerHTML = `<div class="blob" style="background:${PALETTE[c.color]?PALETTE[c.color][0]:'#c99a63'}"></div>
+    <h3>${c.title}</h3><p>${c.desc}</p>
+    <span class="cat-link">Shop category <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>`;
+  el.addEventListener('click',()=>document.getElementById('shop').scrollIntoView({behavior:'smooth'}));
+  catGrid.appendChild(el);
+});
+
+/* ============ RENDER: PRODUCTS ============ */
+const productGrid = document.getElementById('productGrid');
+function grainFor(key){
+  const colors = PALETTE[key] || ['#c99a63','#e6c896'];
+  let out='';
+  for(let i=0;i<12;i++){
+    const size = 10+Math.random()*16;
+    const left = 8+Math.random()*84;
+    const top = 46+Math.random()*46;
+    const c = colors[i%2];
+    out += `<span class="grain-dot" style="width:${size}px;height:${size*0.8}px;left:${left}%;top:${top}%;background:${c};transform:rotate(${Math.random()*360}deg);border-radius:${40+Math.random()*30}% ${60-Math.random()*30}% ${50}% ${50}%;"></span>`;
+  }
+  return out;
+}
+function renderProducts(filter){
+  productGrid.innerHTML='';
+  const list = filter==='all' ? products : products.filter(p=>p.cat===filter);
+  list.forEach(p=>{
+    const bg = PALETTE[p.key] ? `linear-gradient(160deg, ${PALETTE[p.key][1]}, ${PALETTE[p.key][0]})` : '#eee';
+    const card = document.createElement('div');
+    card.className='p-card';
+    card.innerHTML = `
+      <div class="pouch" style="background:${bg}">
+        <div class="zip"></div>
+        <div class="label">
+          <svg class="mini-emblem" viewBox="0 0 60 60" fill="none"><path d="M30 44V22M30 22C24 22 20 17 20 12C25 12 29 15 30 20C31 15 35 12 40 12C40 17 36 22 30 22Z" stroke="#1f3b2c" stroke-width="3" stroke-linecap="round"/></svg>
+          <span>SOULNUTS</span>
+        </div>
+        ${grainFor(p.key)}
+      </div>
+      <div class="p-body">
+        <span class="p-cat-tag">${p.cat==='ladoos'?'Home-Made':p.cat==='seeds'?'Seeds & Blends':'Dry Fruits & Nuts'}</span>
+        <h4>${p.name}</h4>
+        <p class="p-desc">${p.desc}</p>
+        <div class="p-foot">
+          <div class="p-price">₹${p.price} <small>/ ${p.unit}</small></div>
+          <button class="add-btn" data-id="${p.id}" aria-label="Add ${p.name} to bag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </div>`;
+    productGrid.appendChild(card);
+  });
+  productGrid.querySelectorAll('.add-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>addToCart(parseInt(btn.dataset.id)));
+  });
+}
+renderProducts('all');
+
+document.querySelectorAll('.filter-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    renderProducts(tab.dataset.filter);
+  });
+});
+
+/* ============ RENDER: LADOO ART ============ */
+const ladooArt = document.getElementById('ladooArt');
+const ladooPositions = [[10,20,120],[130,60,150],[40,180,110],[190,220,100],[220,40,90],[70,270,90]];
+ladooPositions.forEach(([l,t,s],i)=>{
+  const shade = i%2===0 ? '#a6541e' : '#8c4419';
+  const b = document.createElement('div');
+  b.className='ladoo-ball';
+  b.style.cssText = `left:${l}px;top:${t}px;width:${s}px;height:${s}px;background:radial-gradient(circle at 35% 30%, ${shade==='#a6541e'?'#c46a2c':'#a6541e'}, ${shade});`;
+  ladooArt.appendChild(b);
+});
+
+/* ============ RENDER: POUCH PACK VISUAL ============ */
+const pbVisual = document.getElementById('pbVisual');
+const pbColors = ['#c99a63','#7e8f60','#e9dfc2','#6e4a2e','#c6a15b','#a6541e'];
+pbColors.forEach(c=>{
+  const p = document.createElement('div');
+  p.className='pb-pill';
+  p.style.background = c;
+  pbVisual.appendChild(p);
+});
+
+/* ============ RENDER: TESTIMONIALS ============ */
+const tGrid = document.getElementById('testimonialGrid');
+testimonials.forEach(t=>{
+  const card = document.createElement('div');
+  card.className='t-card';
+  card.innerHTML = `
+    <div class="t-stars">${'★★★★★'.split('').map(()=>`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3L22 9l-5 5 1.3 7L12 17.8 5.7 21 7 14 2 9l7.1-.7z"/></svg>`).join('')}</div>
+    <q>${t.q}</q>
+    <div class="t-who">
+      <div class="t-avatar" style="background:${t.c}">${t.n.split(' ').map(w=>w[0]).join('')}</div>
+      <div><span>${t.n}</span><small>${t.t}</small></div>
+    </div>`;
+  tGrid.appendChild(card);
+});
+
+/* ============ CART LOGIC ============ */
+let cart = [];
+const cartPanel = document.getElementById('cartPanel');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartItemsEl = document.getElementById('cartItems');
+const cartCountEl = document.getElementById('cartCount');
+const cartSubtotalEl = document.getElementById('cartSubtotal');
+const checkoutBtn = document.getElementById('checkoutBtn');
+
+function openCart(){cartPanel.classList.add('open');cartOverlay.classList.add('open');}
+function closeCart(){cartPanel.classList.remove('open');cartOverlay.classList.remove('open');}
+document.getElementById('cartToggle').addEventListener('click',openCart);
+document.getElementById('cartClose').addEventListener('click',closeCart);
+cartOverlay.addEventListener('click',closeCart);
+
+function addToCart(id){
+  const product = products.find(p=>p.id===id);
+  const existing = cart.find(c=>c.id===id);
+  if(existing){existing.qty++;} else {cart.push({...product,qty:1});}
+  renderCart();
+  showToast(`${product.name} added to bag`);
+  openCart();
+}
+function renderCart(){
+  const totalQty = cart.reduce((s,c)=>s+c.qty,0);
+  cartCountEl.textContent = totalQty;
+  if(cart.length===0){
+    cartItemsEl.innerHTML = `<div class="cart-empty">Your bag is empty.<br>Add something soulful.</div>`;
+  } else {
+    cartItemsEl.innerHTML = cart.map(c=>{
+      const bg = PALETTE[c.key] ? `linear-gradient(160deg, ${PALETTE[c.key][1]}, ${PALETTE[c.key][0]})` : '#eee';
+      return `<div class="cart-item">
+        <div class="ci-thumb" style="background:${bg}"></div>
+        <div class="ci-info">
+          <h5>${c.name}</h5>
+          <span class="ci-price">₹${c.price} × ${c.qty}</span>
+        </div>
+        <div class="ci-qty">
+          <button data-id="${c.id}" data-act="dec">−</button>
+          <span>${c.qty}</span>
+          <button data-id="${c.id}" data-act="inc">+</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  const subtotal = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  cartSubtotalEl.textContent = `₹${subtotal}`;
+  const msg = cart.map(c=>`${c.name} x${c.qty}`).join(', ');
+  checkoutBtn.href = `https://wa.me/918310440354?text=${encodeURIComponent("Hi Soulnuts, I'd like to order: "+msg+". Subtotal: ₹"+subtotal)}`;
+
+  cartItemsEl.querySelectorAll('[data-act]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id = parseInt(btn.dataset.id);
+      const item = cart.find(c=>c.id===id);
+      if(btn.dataset.act==='inc') item.qty++;
+      else { item.qty--; if(item.qty<=0) cart = cart.filter(c=>c.id!==id); }
+      renderCart();
+    });
+  });
+}
+renderCart();
+
+/* ============ TOAST ============ */
+let toastTimer;
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toast.classList.remove('show'),2400);
+}
+
+/* ============ NEWSLETTER ============ */
+document.getElementById('newsForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  showToast("You're on the list — something soulful is coming!");
+  e.target.reset();
+});
+
+/* ============ SCROLL REVEAL ============ */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ============ MOBILE MENU (simple scroll for demo) ============ */
+document.getElementById('menuToggle').addEventListener('click',()=>{
+  document.getElementById('shop').scrollIntoView({behavior:'smooth'});
+});
+</script>
+</body>
+</html>

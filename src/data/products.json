@@ -1,0 +1,169 @@
+[
+  {
+    "id": "californian-almonds",
+    "name": "Californian Almonds",
+    "category": "nuts",
+    "price": 299,
+    "unit": "250g",
+    "description": "Crunchy, protein-rich almonds — daily-habit ready.",
+    "colorKey": "almond",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "250g", "price": 299 },
+      { "label": "500g", "price": 549 }
+    ]
+  },
+  {
+    "id": "whole-cashews",
+    "name": "Whole Cashews",
+    "category": "nuts",
+    "price": 349,
+    "unit": "250g",
+    "description": "Creamy W240 grade cashews, hand-sorted.",
+    "colorKey": "cashew",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "250g", "price": 349 },
+      { "label": "500g", "price": 649 }
+    ]
+  },
+  {
+    "id": "iranian-pistachios",
+    "name": "Iranian Pistachios",
+    "category": "nuts",
+    "price": 499,
+    "unit": "250g",
+    "description": "Naturally split, roasted lightly with sea salt.",
+    "colorKey": "pistachio",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "250g", "price": 499 },
+      { "label": "500g", "price": 949 }
+    ]
+  },
+  {
+    "id": "kashmiri-walnuts",
+    "name": "Kashmiri Walnuts",
+    "category": "nuts",
+    "price": 399,
+    "unit": "250g",
+    "description": "Light-coloured halves, rich in omega-3.",
+    "colorKey": "walnut",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "250g", "price": 399 },
+      { "label": "500g", "price": 749 }
+    ]
+  },
+  {
+    "id": "stuffed-dates",
+    "name": "Stuffed Dates",
+    "category": "nuts",
+    "price": 299,
+    "unit": "200g",
+    "description": "Soft dates stuffed with almond & walnut.",
+    "colorKey": "date",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "200g", "price": 299 },
+      { "label": "400g", "price": 549 }
+    ]
+  },
+  {
+    "id": "turkish-figs",
+    "name": "Turkish Figs",
+    "category": "nuts",
+    "price": 349,
+    "unit": "200g",
+    "description": "Sun-dried, naturally sweet, fibre-rich figs.",
+    "colorKey": "fig",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "200g", "price": 349 },
+      { "label": "400g", "price": 649 }
+    ]
+  },
+  {
+    "id": "golden-raisins",
+    "name": "Golden Raisins",
+    "category": "nuts",
+    "price": 199,
+    "unit": "200g",
+    "description": "Seedless, plump and naturally sun-sweetened.",
+    "colorKey": "raisin",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "200g", "price": 199 },
+      { "label": "400g", "price": 379 }
+    ]
+  },
+  {
+    "id": "trail-mix-deluxe",
+    "name": "Trail Mix Deluxe",
+    "category": "seeds",
+    "price": 349,
+    "unit": "200g",
+    "description": "Nuts, seeds & dried fruit — the everyday mix.",
+    "colorKey": "seed",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "200g", "price": 349 },
+      { "label": "400g", "price": 649 }
+    ]
+  },
+  {
+    "id": "chia-flax-blend",
+    "name": "Chia & Flax Blend",
+    "category": "seeds",
+    "price": 249,
+    "unit": "200g",
+    "description": "Omega-rich seed blend for smoothies & bowls.",
+    "colorKey": "seed",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "200g", "price": 249 },
+      { "label": "400g", "price": 469 }
+    ]
+  },
+  {
+    "id": "pumpkin-sunflower",
+    "name": "Pumpkin & Sunflower",
+    "category": "seeds",
+    "price": 229,
+    "unit": "200g",
+    "description": "Roasted seed mix, high in magnesium & zinc.",
+    "colorKey": "seed",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "200g", "price": 229 },
+      { "label": "400g", "price": 429 }
+    ]
+  },
+  {
+    "id": "soulnuts-ladoos",
+    "name": "Soulnuts Ladoos",
+    "category": "ladoos",
+    "price": 399,
+    "unit": "Box of 12",
+    "description": "Date, nut & seed ladoos — no refined sugar.",
+    "colorKey": "ladoo",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "Box of 12", "price": 399 },
+      { "label": "Box of 24", "price": 749 }
+    ]
+  },
+  {
+    "id": "30-day-pouch-pack",
+    "name": "30-Day Pouch Pack",
+    "category": "ladoos",
+    "price": 1299,
+    "unit": "30 pouches",
+    "description": "A month of portioned, ready-to-grab snacking.",
+    "colorKey": "seed",
+    "inStock": true,
+    "weightOptions": [
+      { "label": "30 pouches", "price": 1299 }
+    ]
+  }
+]
