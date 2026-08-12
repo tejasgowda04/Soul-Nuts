@@ -34,8 +34,7 @@ export default function Nav({ onCartOpen }) {
   }, [mobileOpen])
 
   const navLinks = [
-    { to: '/shop', label: 'Shop' },
-    { to: '/shop?cat=nuts', label: 'Dry Fruits & Nuts' },
+    { to: '/shop', label: 'Shop All' },
     { to: '/ladoos', label: 'Ladoos' },
     { to: '/about', label: 'Our Story' },
     { to: '/contact', label: 'Contact' },
@@ -66,7 +65,7 @@ export default function Nav({ onCartOpen }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: 3,
+              padding: 2,
               boxShadow: '0 4px 12px rgba(18,36,26,0.08)',
               overflow: 'hidden',
               flex: 'none',
@@ -95,7 +94,7 @@ export default function Nav({ onCartOpen }) {
           </span>
         </Link>
 
-        {/* Desktop nav links (Strictly hidden on mobile via CSS) */}
+        {/* Desktop nav links */}
         <nav className="desktop-nav-links">
           {navLinks.map(({ to, label }) => (
             <Link

@@ -1,18 +1,30 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { CartProvider, useCart } from './context/CartContext'
+import { AuthProvider } from './context/AuthContext'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import CartDrawer from './components/CartDrawer'
 import Toast from './components/Toast'
 import SplashScreen from './components/SplashScreen'
 
+// Customer Pages
 import Home from './pages/Home'
 import Shop from './pages/Shop'
 import ProductDetail from './pages/ProductDetail'
 import Ladoos from './pages/Ladoos'
 import About from './pages/About'
 import Contact from './pages/Contact'
+
+// Admin Components & Pages
+import AdminGuard from './components/admin/AdminGuard'
+import AdminLayout from './components/admin/AdminLayout'
+import AdminLogin from './pages/admin/AdminLogin'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminProducts from './pages/admin/AdminProducts'
+import AdminProductForm from './pages/admin/AdminProductForm'
+import AdminCategories from './pages/admin/AdminCategories'
+import AdminOrders from './pages/admin/AdminOrders'
 
 function MainLayout() {
   const { addItem } = useCart()
@@ -85,11 +97,31 @@ export default function App() {
   const [showSplash, setShowSplash] = useState(true)
 
   return (
-    <CartProvider>
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
-      <Router>
-        <MainLayout />
-      </Router>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+        <Router>
+          <Routes>
+            {/* Admin Authentication Route */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+
+            {/* Protected Admin Dashboard Shell */}
+            <Route path="/admin" element={<AdminGuard />}>
+              <Route element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="products/new" element={<AdminProductForm />} />
+                <Route path="products/:id/edit" element={<AdminProductForm />} />
+                <Route path="categories" element={<AdminCategories />} />
+                <Route path="orders" element={<AdminOrders />} />
+              </Route>
+            </Route>
+
+            {/* Public Customer Storefront Layout */}
+            <Route path="/*" element={<MainLayout />} />
+          </Routes>
+        </Router>
+      </CartProvider>
+    </AuthProvider>
   )
 }

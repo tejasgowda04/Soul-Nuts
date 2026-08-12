@@ -1,39 +1,12 @@
-import { useState } from 'react'
 import ProductCard from './ProductCard'
 
 export default function ProductGrid({
-  products,
+  products = [],
+  loading = false,
   onAddToCart,
-  activeCategory: propCategory,
-  onCategoryChange,
-  showFilters = true,
   title = "Best of the board",
   subtitle = "Our most-loved pouches, weighed and sealed the day they ship."
 }) {
-  const [internalCategory, setInternalCategory] = useState('all')
-
-  const activeCategory = propCategory !== undefined ? propCategory : internalCategory
-
-  const handleCategoryClick = (cat) => {
-    if (onCategoryChange) {
-      onCategoryChange(cat)
-    } else {
-      setInternalCategory(cat)
-    }
-  }
-
-  const filteredProducts =
-    activeCategory === 'all'
-      ? products
-      : products.filter((p) => p.category === activeCategory)
-
-  const tabs = [
-    { id: 'all', label: 'All' },
-    { id: 'nuts', label: 'Dry Fruits & Nuts' },
-    { id: 'seeds', label: 'Seeds & Blends' },
-    { id: 'ladoos', label: 'Ladoos' },
-  ]
-
   return (
     <section className="section" id="shop" style={{ paddingTop: 0 }}>
       <div className="wrap">
@@ -42,49 +15,48 @@ export default function ProductGrid({
           <p>{subtitle}</p>
         </div>
 
-        {showFilters && (
+        {loading ? (
+          <div className="product-grid-items">
+            {[1, 2, 3, 4].map((n) => (
+              <div
+                key={n}
+                style={{
+                  height: 320,
+                  borderRadius: 20,
+                  background: 'var(--paper)',
+                  border: '1px solid var(--line)',
+                  opacity: 0.5,
+                  animation: 'pulse 1.5s infinite'
+                }}
+              />
+            ))}
+          </div>
+        ) : products.length === 0 ? (
           <div
             style={{
-              display: 'flex',
-              gap: 10,
-              marginBottom: 40,
-              flexWrap: 'wrap',
+              padding: '60px 20px',
+              textAlign: 'center',
+              background: 'var(--paper)',
+              borderRadius: 20,
+              border: '1px dashed var(--line)'
             }}
           >
-            {tabs.map((tab) => {
-              const isActive = activeCategory === tab.id
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleCategoryClick(tab.id)}
-                  style={{
-                    padding: '10px 20px',
-                    borderRadius: 100,
-                    fontSize: 12.5,
-                    fontWeight: 700,
-                    border: '1.4px solid var(--line)',
-                    background: isActive ? 'var(--ink)' : 'var(--paper)',
-                    color: isActive ? 'var(--ivory)' : 'var(--ink)',
-                    borderColor: isActive ? 'var(--ink)' : 'var(--line)',
-                    transition: 'all .3s var(--ease)',
-                  }}
-                >
-                  {tab.label}
-                </button>
-              )
-            })}
+            <h3 style={{ fontSize: 20, color: 'var(--pine)' }}>No products found</h3>
+            <p style={{ fontSize: 14, color: 'var(--ink-soft)', marginTop: 6 }}>
+              There are currently no active products in the harvest.
+            </p>
+          </div>
+        ) : (
+          <div className="product-grid-items">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id || product.slug}
+                product={product}
+                onAddToCart={onAddToCart}
+              />
+            ))}
           </div>
         )}
-
-        <div className="product-grid-items">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={onAddToCart}
-            />
-          ))}
-        </div>
       </div>
 
       <style>{`
@@ -92,6 +64,11 @@ export default function ProductGrid({
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 24px;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 0.8; }
         }
 
         @media (max-width: 1100px) {

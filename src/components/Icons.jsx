@@ -1,33 +1,34 @@
-// Shared SVG components used across the app
+// Shared SVG components & Brand Logo used across the app
 
-export function LogoEmblem({ className = '', lightMode = false }) {
-  const stroke = lightMode ? '#f8f3e6' : '#1f3b2c'
-  const accent1 = lightMode ? '#c6a15b' : '#a6541e'
-  const accent2 = lightMode ? '#c6a15b' : '#7e8f60'
-  const accent3 = '#c6a15b'
-
+export function LogoEmblem({ className = '', style = {}, lightMode = false }) {
   return (
-    <svg className={className} viewBox="0 0 60 60" fill="none">
-      {!lightMode && (
-        <circle cx="30" cy="30" r="28" stroke="#c6a15b" strokeWidth="1.4" />
-      )}
-      <path
-        d="M30 44V22M30 22C24 22 20 17 20 12C25 12 29 15 30 20C31 15 35 12 40 12C40 17 36 22 30 22Z"
-        stroke={stroke}
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+    <div
+      className={className}
+      style={{
+        width: 36,
+        height: 36,
+        borderRadius: '50%',
+        background: '#fff',
+        overflow: 'hidden',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: lightMode ? '1px solid var(--gold)' : '1px solid var(--line)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+        ...style
+      }}
+    >
+      <img
+        src="/logo.png"
+        alt="Sol Nuts Logo"
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          borderRadius: '50%'
+        }}
       />
-      <path
-        d="M23 32c-4 1-7 4-7 8M37 32c4 1 7 4 7 8M30 44c0-5 2-8 5-10M30 44c0-5-2-8-5-10"
-        stroke={stroke}
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-      <circle cx="16" cy="41" r="2.2" fill={accent1} />
-      <circle cx="44" cy="41" r="2.2" fill={accent2} />
-      <circle cx="30" cy="48" r="2.2" fill={accent3} />
-    </svg>
+    </div>
   )
 }
 

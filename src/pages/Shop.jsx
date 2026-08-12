@@ -1,10 +1,29 @@
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductGrid from '../components/ProductGrid'
-import productsData from '../data/products.json'
+import { fetchProducts } from '../lib/api'
 
 export default function Shop({ onAddToCart }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const categoryParam = searchParams.get('cat') || 'all'
+
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadProducts()
+  }, [])
+
+  const loadProducts = async () => {
+    try {
+      const data = await fetchProducts({ activeOnly: true })
+      setProducts(data)
+    } catch (e) {
+      console.error('Error fetching shop products:', e)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleCategoryChange = (cat) => {
     if (cat === 'all') {
@@ -27,7 +46,8 @@ export default function Shop({ onAddToCart }) {
       </div>
 
       <ProductGrid
-        products={productsData}
+        products={products}
+        loading={loading}
         onAddToCart={onAddToCart}
         activeCategory={categoryParam}
         onCategoryChange={handleCategoryChange}

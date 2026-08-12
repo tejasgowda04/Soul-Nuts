@@ -12,30 +12,47 @@ export const PALETTE = {
 }
 
 /**
- * Builds a WhatsApp deep-link pre-filled with the order summary.
+ * Builds a WhatsApp deep-link pre-filled with the order summary and customer details.
  * @param {Array} cartItems  – array of { name, price, qty, weightLabel }
+ * @param {Object} customerDetails – optional { name, phone, address, city }
  * @returns {string} Full wa.me URL
  */
-export function buildWhatsAppUrl(cartItems) {
-  if (!cartItems || cartItems.length === 0) return 'https://wa.me/918310440354'
+export function buildWhatsAppUrl(cartItems, customerDetails = null) {
+  const storePhone = '9191741122678' // Sol Nuts WhatsApp business line
 
-  const lines = cartItems.map(
-    (item) => `${item.name}${item.weightLabel ? ` (${item.weightLabel})` : ''} ×${item.qty}`
+  if (!cartItems || cartItems.length === 0) {
+    return `https://wa.me/${storePhone}?text=${encodeURIComponent("Hi Sol Nuts, I'd like to ask about dry fruits & snacks!")}`
+  }
+
+  const itemLines = cartItems.map(
+    (item, idx) => `${idx + 1}. *${item.name}* ${item.weightLabel ? `(${item.weightLabel})` : ''} × ${item.qty} = ₹${item.price * item.qty}`
   )
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0)
 
+  let customerBlock = ''
+  if (customerDetails && customerDetails.name) {
+    customerBlock = [
+      '*DELIVERY DETAILS:*',
+      `Name: ${customerDetails.name}`,
+      `Phone: ${customerDetails.phone || ''}`,
+      `Address: ${customerDetails.address || ''}, ${customerDetails.city || 'Mandya'} (${customerDetails.pincode || '571401'})`,
+      ''
+    ].join('\n')
+  }
+
   const text = [
-    "Hi Soulnuts, I'd like to order:",
+    '🌱 *NEW SOL NUTS ORDER*',
+    '--------------------------------',
+    ...itemLines,
+    '--------------------------------',
+    `*TOTAL AMOUNT:* ₹${subtotal}`,
     '',
-    ...lines,
-    '',
-    `Subtotal: ₹${subtotal}`,
-    '',
-    'Please confirm availability and payment details. Thank you!',
+    customerBlock,
+    'Please confirm my order and send payment details. Thank you!'
   ].join('\n')
 
-  return `https://wa.me/918310440354?text=${encodeURIComponent(text)}`
+  return `https://wa.me/${storePhone}?text=${encodeURIComponent(text)}`
 }
 
 /**
@@ -46,8 +63,7 @@ export function buildWhatsAppUrl(cartItems) {
 export function generateGrainDots(colorKey) {
   const colors = PALETTE[colorKey] || ['#c99a63', '#e6c896']
   const dots = []
-  // Use a seeded approach based on colorKey so dots are consistent per product
-  const seed = colorKey.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
+  const seed = (colorKey || 'almond').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
   const rand = (n, offset = 0) => ((seed * (n + 1) * 1234567) % 1000) / 1000 + offset
 
   for (let i = 0; i < 12; i++) {

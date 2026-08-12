@@ -1,9 +1,26 @@
+import { useState, useEffect } from 'react'
 import LadooSpotlight from '../components/LadooSpotlight'
 import ProductGrid from '../components/ProductGrid'
-import productsData from '../data/products.json'
+import { fetchProducts } from '../lib/api'
 
 export default function Ladoos({ onAddToCart }) {
-  const ladoosProducts = productsData.filter((p) => p.category === 'ladoos')
+  const [ladoosProducts, setLadoosProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadLadoos()
+  }, [])
+
+  const loadLadoos = async () => {
+    try {
+      const data = await fetchProducts({ activeOnly: true, categorySlug: 'ladoos' })
+      setLadoosProducts(data)
+    } catch (e) {
+      console.error('Error fetching ladoos:', e)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <main style={{ paddingBottom: 80 }}>
@@ -23,6 +40,7 @@ export default function Ladoos({ onAddToCart }) {
       <div style={{ marginTop: 60 }}>
         <ProductGrid
           products={ladoosProducts}
+          loading={loading}
           onAddToCart={onAddToCart}
           showFilters={false}
           title="Order Ladoos"
