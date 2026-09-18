@@ -1,104 +1,35 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import { buildWhatsAppUrl, getPouchGradient } from '../lib/whatsapp'
-import { createOrder } from '../lib/api'
 import { CloseIcon, WhatsAppIcon } from './Icons'
 
 export default function CartDrawer({ isOpen, onClose }) {
   const { cart, updateQty, removeItem, subtotal, clearCart } = useCart()
-  const [checkoutStep, setCheckoutStep] = useState('cart') // 'cart' | 'checkout' | 'success'
+  const [showAddressForm, setShowAddressForm] = useState(false)
 
-  // Prefilled Customer Details
+  // Delivery details for WhatsApp prefill
   const [customer, setCustomer] = useState({
-    name: 'Tejas G',
-    email: 'tejasprince07@gmail.com',
-    phone: '+91 91741122678',
-    address: 'Mandya Town',
+    name: '',
+    phone: '',
+    address: '',
     city: 'Mandya',
-    state: 'Karnataka',
     pincode: '571401'
   })
 
-  const [submittingOrder, setSubmittingOrder] = useState(false)
-  const [orderRef, setOrderRef] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
+  const whatsappUrl = buildWhatsAppUrl(cart, showAddressForm ? customer : null)
 
-  // Dynamically generated WhatsApp URL with prefilled customer & cart details
-  const whatsappUrl = buildWhatsAppUrl(cart, customer)
-
-  const handlePlaceOrder = async (e) => {
+  const handleWhatsAppCheckout = (e) => {
     e?.preventDefault()
-    if (!customer.name || !customer.phone || !customer.address) {
-      setErrorMsg('Please fill in Name, Phone, and Address.')
-      return
-    }
-
-    setSubmittingOrder(true)
-    setErrorMsg('')
-
-    try {
-      const orderPayload = {
-        name: customer.name,
-        email: customer.email || `${customer.phone}@soulnuts.in`,
-        phone: customer.phone,
-        address: customer.address,
-        city: customer.city,
-        state: customer.state,
-        pincode: customer.pincode,
-        totalAmount: subtotal
-      }
-
-      const cartItemsFormatted = cart.map((item) => ({
-        product: { id: item.id, name: item.name },
-        quantity: item.qty,
-        price: item.price,
-        selectedWeight: item.weightLabel
-      }))
-
-      const createdOrder = await createOrder(orderPayload, cartItemsFormatted)
-      setOrderRef(createdOrder.order_number || createdOrder.id)
-      clearCart()
-      setCheckoutStep('success')
-    } catch (err) {
-      setErrorMsg(err.message || 'Failed to place order.')
-    } finally {
-      setSubmittingOrder(false)
-    }
-  }
-
-  const handleWhatsAppDirectCheckout = async () => {
-    // Record order in database, then open WhatsApp prefilled link
-    try {
-      if (customer.name && customer.phone) {
-        const orderPayload = {
-          name: customer.name,
-          email: customer.email || `${customer.phone}@soulnuts.in`,
-          phone: customer.phone,
-          address: customer.address,
-          city: customer.city,
-          state: customer.state,
-          pincode: customer.pincode,
-          totalAmount: subtotal
-        }
-        const cartItemsFormatted = cart.map((item) => ({
-          product: { id: item.id, name: item.name },
-          quantity: item.qty,
-          price: item.price,
-          selectedWeight: item.weightLabel
-        }))
-        await createOrder(orderPayload, cartItemsFormatted)
-      }
-    } catch (e) {
-      console.warn('Order background log:', e)
-    }
+    if (cart.length === 0) return
 
     window.open(whatsappUrl, '_blank')
     clearCart()
+    setShowAddressForm(false)
     onClose()
   }
 
   const handleCloseAll = () => {
-    setCheckoutStep('cart')
+    setShowAddressForm(false)
     onClose()
   }
 
@@ -122,13 +53,15 @@ export default function CartDrawer({ isOpen, onClose }) {
             borderBottom: '1px solid var(--line)',
           }}
         >
-          <h3 style={{ fontSize: 19, color: 'var(--pine)' }}>
-            {checkoutStep === 'cart'
-              ? 'Your Bag'
-              : checkoutStep === 'checkout'
-              ? 'Prefilled Delivery Info'
-              : 'Order Confirmed!'}
-          </h3>
+          <div>
+            <h3 style={{ fontSize: 19, color: 'var(--pine)', margin: 0 }}>
+              {showAddressForm ? 'Delivery Details for WhatsApp' : 'Your Harvest Bag'}
+            </h3>
+            <span style={{ fontSize: 11, color: 'var(--sage)', fontFamily: "'Space Mono', monospace" }}>
+              ⚡ PURE WHATSAPP ORDERING
+            </span>
+          </div>
+
           <button
             onClick={handleCloseAll}
             aria-label="Close cart"
@@ -140,6 +73,7 @@ export default function CartDrawer({ isOpen, onClose }) {
               alignItems: 'center',
               justifyContent: 'center',
               border: '1px solid var(--line)',
+              cursor: 'pointer'
             }}
           >
             <CloseIcon />
@@ -147,7 +81,7 @@ export default function CartDrawer({ isOpen, onClose }) {
         </div>
 
         {/* View Mode: CART ITEMS */}
-        {checkoutStep === 'cart' && (
+        {!showAddressForm ? (
           <>
             <div
               style={{
@@ -165,13 +99,12 @@ export default function CartDrawer({ isOpen, onClose }) {
                     margin: 'auto',
                     textAlign: 'center',
                     color: 'var(--ink-soft)',
-                    fontSize: 13.5,
+                    fontSize: 14,
                     padding: '40px 0',
                   }}
                 >
-                  Your bag is empty.
-                  <br />
-                  Add something soulful.
+                  <p style={{ fontWeight: 600, color: 'var(--pine)', marginBottom: 6 }}>Your bag is empty.</p>
+                  <p style={{ fontSize: 12.5 }}>Select products from our harvest to start your WhatsApp order.</p>
                 </div>
               ) : (
                 cart.map((item, idx) => {
@@ -183,13 +116,15 @@ export default function CartDrawer({ isOpen, onClose }) {
                         display: 'flex',
                         gap: 14,
                         alignItems: 'center',
+                        paddingBottom: 14,
+                        borderBottom: '1px solid var(--line)'
                       }}
                     >
                       {/* Thumbnail */}
                       <div
                         style={{
-                          width: 52,
-                          height: 52,
+                          width: 54,
+                          height: 54,
                           borderRadius: 12,
                           flex: 'none',
                           position: 'relative',
@@ -207,9 +142,10 @@ export default function CartDrawer({ isOpen, onClose }) {
                       <div style={{ flex: 1 }}>
                         <h5
                           style={{
-                            fontSize: 13.5,
+                            fontSize: 14,
                             fontWeight: 700,
                             marginBottom: 4,
+                            color: 'var(--ink)'
                           }}
                         >
                           {item.name}
@@ -230,15 +166,16 @@ export default function CartDrawer({ isOpen, onClose }) {
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: 8,
-                          border: '1px solid var(--line)',
+                          gap: 6,
+                          border: '1.4px solid var(--line)',
                           borderRadius: 100,
-                          padding: '4px 8px',
+                          padding: '4px 10px',
+                          background: 'var(--paper)'
                         }}
                       >
                         <button
                           onClick={() => updateQty(item.id, item.weightLabel, item.qty - 1)}
-                          style={{ width: 18, height: 18, fontSize: 13, fontWeight: 700 }}
+                          style={{ width: 18, height: 18, fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
                           aria-label="Decrease quantity"
                         >
                           −
@@ -249,13 +186,14 @@ export default function CartDrawer({ isOpen, onClose }) {
                             fontSize: 12,
                             minWidth: 14,
                             textAlign: 'center',
+                            fontWeight: 700
                           }}
                         >
                           {item.qty}
                         </span>
                         <button
                           onClick={() => updateQty(item.id, item.weightLabel, item.qty + 1)}
-                          style={{ width: 18, height: 18, fontSize: 13, fontWeight: 700 }}
+                          style={{ width: 18, height: 18, fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
                           aria-label="Increase quantity"
                         >
                           +
@@ -267,9 +205,11 @@ export default function CartDrawer({ isOpen, onClose }) {
                         onClick={() => removeItem(item.id, item.weightLabel)}
                         style={{
                           color: 'var(--rust)',
-                          fontSize: 11,
+                          fontSize: 13,
                           fontWeight: 700,
                           marginLeft: 4,
+                          cursor: 'pointer',
+                          padding: 4
                         }}
                         aria-label={`Remove ${item.name}`}
                       >
@@ -288,7 +228,8 @@ export default function CartDrawer({ isOpen, onClose }) {
                 padding: '20px 24px 24px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 12
+                gap: 12,
+                background: 'var(--paper)'
               }}
             >
               <div
@@ -296,64 +237,65 @@ export default function CartDrawer({ isOpen, onClose }) {
                   display: 'flex',
                   justifyContent: 'space-between',
                   marginBottom: 4,
-                  fontSize: 14,
+                  fontSize: 15,
                   fontWeight: 700,
                 }}
               >
-                <span>Subtotal</span>
-                <span style={{ fontFamily: "'Space Mono', monospace" }}>
+                <span>Estimated Total</span>
+                <span style={{ fontFamily: "'Space Mono', monospace", color: 'var(--rust)' }}>
                   ₹{subtotal}
                 </span>
               </div>
 
               {/* Direct WhatsApp Order CTA */}
               <button
-                onClick={handleWhatsAppDirectCheckout}
+                onClick={handleWhatsAppCheckout}
                 disabled={cart.length === 0}
                 className="btn btn-primary"
                 style={{
                   width: '100%',
                   justifyContent: 'center',
-                  padding: '14px',
-                  fontSize: 14.5,
+                  padding: '15px',
+                  fontSize: 15,
                   background: '#25D366',
                   color: '#fff',
                   boxShadow: '0 10px 24px -8px rgba(37, 211, 102, 0.6)',
                   opacity: cart.length === 0 ? 0.6 : 1,
                   pointerEvents: cart.length === 0 ? 'none' : 'auto',
+                  borderRadius: 100,
+                  cursor: 'pointer'
                 }}
               >
-                <WhatsAppIcon width={18} height={18} />
-                Direct WhatsApp Checkout — ₹{subtotal}
+                <WhatsAppIcon width={20} height={20} />
+                Order via WhatsApp — ₹{subtotal}
               </button>
 
-              {/* Website Form Checkout Option */}
-              <button
-                onClick={() => setCheckoutStep('checkout')}
-                disabled={cart.length === 0}
-                style={{
-                  width: '100%',
-                  textAlign: 'center',
-                  padding: '11px',
-                  borderRadius: 100,
-                  border: '1.4px solid var(--line)',
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: 'var(--ink)',
-                  opacity: cart.length === 0 ? 0.6 : 1,
-                  pointerEvents: cart.length === 0 ? 'none' : 'auto',
-                }}
-              >
-                Enter Delivery Details (Website Order)
-              </button>
+              {/* Optional: Add Delivery Address before sending */}
+              {cart.length > 0 && (
+                <button
+                  onClick={() => setShowAddressForm(true)}
+                  style={{
+                    width: '100%',
+                    textAlign: 'center',
+                    padding: '10px',
+                    borderRadius: 100,
+                    border: '1.4px solid var(--line)',
+                    fontSize: 12.5,
+                    fontWeight: 700,
+                    color: 'var(--ink-soft)',
+                    cursor: 'pointer',
+                    background: 'transparent'
+                  }}
+                >
+                  + Add Delivery Address before sending
+                </button>
+              )}
             </div>
           </>
-        )}
-
-        {/* View Mode: PREFILLED CHECKOUT FORM */}
-        {checkoutStep === 'checkout' && (
+        ) : (
+          /* OPTIONAL DELIVERY DETAILS FORM */
           <form
-            onSubmit={handlePlaceOrder}
+            onSubmit={handleWhatsAppCheckout}
             style={{
               flex: 1,
               display: 'flex',
@@ -364,57 +306,36 @@ export default function CartDrawer({ isOpen, onClose }) {
             }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <div style={{ fontSize: 12, color: 'var(--sage)', fontFamily: "'Space Mono', monospace", fontWeight: 700 }}>
-                PREFILLED CHECKOUT
-              </div>
-
-              {errorMsg && (
-                <div style={{ padding: '8px 12px', borderRadius: 8, background: '#fdf2f2', color: '#9b1c1c', fontSize: 12 }}>
-                  {errorMsg}
-                </div>
-              )}
+              <p style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                Fill in your details to include your shipping address directly in your WhatsApp order message.
+              </p>
 
               <div>
                 <label style={{ display: 'block', fontSize: 11, fontWeight: 700, fontFamily: "'Space Mono', monospace", marginBottom: 4 }}>
-                  FULL NAME *
+                  YOUR NAME *
                 </label>
                 <input
                   type="text"
                   required
                   value={customer.name}
                   onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
-                  placeholder="Tejas G"
-                  style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 13, outline: 'none' }}
+                  placeholder="e.g. Tejas"
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 13, outline: 'none' }}
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, fontFamily: "'Space Mono', monospace", marginBottom: 4 }}>
-                    PHONE *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={customer.phone}
-                    onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
-                    placeholder="+91 91741122678"
-                    style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 13, outline: 'none' }}
-                  />
-                </div>
-
-                <div>
-                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, fontFamily: "'Space Mono', monospace", marginBottom: 4 }}>
-                    EMAIL
-                  </label>
-                  <input
-                    type="email"
-                    value={customer.email}
-                    onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
-                    placeholder="tejasprince07@gmail.com"
-                    style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 13, outline: 'none' }}
-                  />
-                </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, fontFamily: "'Space Mono', monospace", marginBottom: 4 }}>
+                  PHONE NUMBER *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={customer.phone}
+                  onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
+                  placeholder="e.g. 9876543210"
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 13, outline: 'none' }}
+                />
               </div>
 
               <div>
@@ -426,12 +347,12 @@ export default function CartDrawer({ isOpen, onClose }) {
                   required
                   value={customer.address}
                   onChange={(e) => setCustomer({ ...customer, address: e.target.value })}
-                  placeholder="Mandya Town"
-                  style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 13, outline: 'none' }}
+                  placeholder="House / Street / Area"
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 13, outline: 'none' }}
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: 10, fontWeight: 700, fontFamily: "'Space Mono', monospace", marginBottom: 4 }}>
                     CITY
@@ -440,18 +361,6 @@ export default function CartDrawer({ isOpen, onClose }) {
                     type="text"
                     value={customer.city}
                     onChange={(e) => setCustomer({ ...customer, city: e.target.value })}
-                    style={{ width: '100%', padding: '8px 10px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 12 }}
-                  />
-                </div>
-
-                <div>
-                  <label style={{ display: 'block', fontSize: 10, fontWeight: 700, fontFamily: "'Space Mono', monospace", marginBottom: 4 }}>
-                    STATE
-                  </label>
-                  <input
-                    type="text"
-                    value={customer.state}
-                    onChange={(e) => setCustomer({ ...customer, state: e.target.value })}
                     style={{ width: '100%', padding: '8px 10px', borderRadius: 8, border: '1px solid var(--line)', fontSize: 12 }}
                   />
                 </div>
@@ -471,110 +380,43 @@ export default function CartDrawer({ isOpen, onClose }) {
             </div>
 
             <div style={{ paddingTop: 16, borderTop: '1px solid var(--line)', display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: 14 }}>
-                <span>Total Amount Payable</span>
-                <span style={{ fontFamily: "'Space Mono', monospace", color: 'var(--rust)' }}>₹{subtotal}</span>
-              </div>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  padding: '14px',
+                  fontSize: 14.5,
+                  background: '#25D366',
+                  color: '#fff',
+                  borderRadius: 100,
+                  fontWeight: 700,
+                  boxShadow: '0 8px 20px -6px rgba(37,211,102,0.5)',
+                  cursor: 'pointer'
+                }}
+              >
+                <WhatsAppIcon width={18} height={18} />
+                Send Order to WhatsApp — ₹{subtotal}
+              </button>
 
-              <div style={{ display: 'flex', gap: 10, flexDirection: 'column' }}>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn"
-                  style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    padding: '12px',
-                    fontSize: 13.5,
-                    background: '#25D366',
-                    color: '#fff',
-                    borderRadius: 100,
-                    fontWeight: 700,
-                    boxShadow: '0 8px 20px -6px rgba(37,211,102,0.5)'
-                  }}
-                >
-                  <WhatsAppIcon width={16} height={16} />
-                  Send Order with Prefilled Details on WhatsApp
-                </a>
-
-                <div style={{ display: 'flex', gap: 10 }}>
-                  <button
-                    type="button"
-                    onClick={() => setCheckoutStep('cart')}
-                    style={{ padding: '10px 16px', borderRadius: 100, border: '1px solid var(--line)', fontSize: 12.5, fontWeight: 700 }}
-                  >
-                    ← Back
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submittingOrder}
-                    className="btn btn-primary"
-                    style={{ flex: 1, justifyContent: 'center', padding: '10px', fontSize: 13, opacity: submittingOrder ? 0.7 : 1 }}
-                  >
-                    {submittingOrder ? 'Placing Order...' : 'Confirm Order on Site'}
-                  </button>
-                </div>
-              </div>
+              <button
+                type="button"
+                onClick={() => setShowAddressForm(false)}
+                style={{
+                  padding: '10px',
+                  borderRadius: 100,
+                  border: '1px solid var(--line)',
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  background: 'transparent'
+                }}
+              >
+                ← Back to Bag
+              </button>
             </div>
           </form>
-        )}
-
-        {/* View Mode: ORDER SUCCESS */}
-        {checkoutStep === 'success' && (
-          <div
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 32,
-              textAlign: 'center'
-            }}
-          >
-            <div
-              style={{
-                width: 60,
-                height: 60,
-                borderRadius: '50%',
-                background: '#e6fffa',
-                color: '#234e52',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 28,
-                marginBottom: 16
-              }}
-            >
-              ✓
-            </div>
-
-            <h3 style={{ fontSize: 22, color: 'var(--pine)', marginBottom: 6 }}>Order Placed!</h3>
-            <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: 20 }}>
-              Thank you for ordering with Sol Nuts! Your order has been recorded and will be sealed fresh in Mandya.
-            </p>
-
-            <div
-              style={{
-                padding: '12px 20px',
-                borderRadius: 12,
-                background: 'var(--ivory)',
-                border: '1px dashed var(--line)',
-                fontFamily: "'Space Mono', monospace",
-                fontWeight: 700,
-                fontSize: 14,
-                color: 'var(--rust)',
-                marginBottom: 28
-              }}
-            >
-              REF: {orderRef}
-            </div>
-
-            <button onClick={handleCloseAll} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-              Continue Shopping
-            </button>
-          </div>
         )}
       </aside>
     </>

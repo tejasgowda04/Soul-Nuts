@@ -18,7 +18,7 @@ export const PALETTE = {
  * @returns {string} Full wa.me URL
  */
 export function buildWhatsAppUrl(cartItems, customerDetails = null) {
-  const storePhone = '9191741122678' // Sol Nuts WhatsApp business line
+  const storePhone = '918310440354' // Soulnuts WhatsApp business line
 
   if (!cartItems || cartItems.length === 0) {
     return `https://wa.me/${storePhone}?text=${encodeURIComponent("Hi Sol Nuts, I'd like to ask about dry fruits & snacks!")}`

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchProductBySlug, fetchProducts } from '../lib/api'
-import { getPouchGradient, generateGrainDots } from '../lib/whatsapp'
-import { LogoEmblem, CheckIcon } from '../components/Icons'
+import { getPouchGradient, generateGrainDots, buildWhatsAppUrl } from '../lib/whatsapp'
+import { LogoEmblem, CheckIcon, WhatsAppIcon } from '../components/Icons'
 import ProductCard from '../components/ProductCard'
 
 export default function ProductDetail({ onAddToCart }) {
@@ -84,6 +84,20 @@ export default function ProductDetail({ onAddToCart }) {
   const handleAdd = () => {
     if (isOutOfStock) return
     onAddToCart(product, selectedOption?.label || product.unit, currentPrice, quantity)
+  }
+
+  const handleDirectWhatsApp = () => {
+    if (isOutOfStock) return
+    const singleCartItem = [
+      {
+        name: product.name,
+        price: currentPrice,
+        qty: quantity,
+        weightLabel: selectedOption?.label || product.unit
+      }
+    ]
+    const url = buildWhatsAppUrl(singleCartItem)
+    window.open(url, '_blank')
   }
 
   const galleryImages = [
@@ -386,19 +400,41 @@ export default function ProductDetail({ onAddToCart }) {
                 </button>
               </div>
 
-              <button
-                onClick={handleAdd}
-                disabled={isOutOfStock}
-                className="btn btn-primary"
-                style={{
-                  padding: '16px 36px',
-                  fontSize: 15,
-                  opacity: isOutOfStock ? 0.6 : 1,
-                  cursor: isOutOfStock ? 'not-allowed' : 'pointer'
-                }}
-              >
-                {isOutOfStock ? 'Currently Out of Stock' : `Add to Bag — ₹${currentPrice * quantity}`}
-              </button>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', flex: 1 }}>
+                <button
+                  onClick={handleAdd}
+                  disabled={isOutOfStock}
+                  className="btn btn-outline"
+                  style={{
+                    padding: '16px 28px',
+                    fontSize: 14.5,
+                    opacity: isOutOfStock ? 0.6 : 1,
+                    cursor: isOutOfStock ? 'not-allowed' : 'pointer',
+                    flex: 1
+                  }}
+                >
+                  {isOutOfStock ? 'Out of Stock' : `Add to Bag — ₹${currentPrice * quantity}`}
+                </button>
+
+                <button
+                  onClick={handleDirectWhatsApp}
+                  disabled={isOutOfStock}
+                  className="btn btn-primary"
+                  style={{
+                    padding: '16px 28px',
+                    fontSize: 14.5,
+                    background: '#25D366',
+                    color: '#fff',
+                    boxShadow: '0 8px 20px -6px rgba(37,211,102,0.5)',
+                    opacity: isOutOfStock ? 0.6 : 1,
+                    cursor: isOutOfStock ? 'not-allowed' : 'pointer',
+                    flex: 1
+                  }}
+                >
+                  <WhatsAppIcon width={18} height={18} />
+                  Buy on WhatsApp
+                </button>
+              </div>
             </div>
 
             {/* Guarantees */}

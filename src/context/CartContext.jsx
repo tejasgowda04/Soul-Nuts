@@ -68,16 +68,19 @@ export function CartProvider({ children }) {
     }
   }, [cart])
 
-  const addItem = useCallback((product, weightLabel, price) => {
+  const addItem = useCallback((product, weightLabel, price, initialQty = 1) => {
     dispatch({
       type: 'ADD_ITEM',
       payload: {
-        id: product.id,
+        id: product.id || product.slug,
+        slug: product.slug || product.id,
         name: product.name,
-        colorKey: product.colorKey,
+        colorKey: product.color_key || product.colorKey || 'almond',
+        main_image: product.main_image || (product.images && product.images[0]) || '',
         price: price ?? product.price,
         weightLabel: weightLabel ?? product.unit,
         unit: product.unit,
+        qty: initialQty > 1 ? initialQty - 1 : 0 // reducer adds 1
       },
     })
   }, [])

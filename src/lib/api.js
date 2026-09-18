@@ -17,13 +17,22 @@ const DEFAULT_CATEGORIES = [
 // Initialize local fallback storage
 function getLocalProducts() {
   const data = localStorage.getItem(LOCAL_STORAGE_PRODUCTS_KEY)
-  if (data) return JSON.parse(data)
+  if (data) {
+    try {
+      const parsed = JSON.parse(data)
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed
+      }
+    } catch (e) {
+      console.error('Failed to parse local products, resetting:', e)
+    }
+  }
 
   // Format initial JSON data into table schema
   const formatted = initialProductsData.map((p) => ({
     id: p.id,
     name: p.name,
-    slug: p.id,
+    slug: p.id || generateSlug(p.name),
     description: p.description || '',
     category_slug: p.category,
     price: p.price,
@@ -71,6 +80,7 @@ function saveLocalOrders(orders) {
 
 // Helper: Auto-generate slug from name
 export function generateSlug(name) {
+  if (!name) return ''
   return name
     .toLowerCase()
     .trim()
@@ -92,7 +102,10 @@ export async function fetchProducts({ activeOnly = false, categorySlug = null, f
       if (categorySlug && categorySlug !== 'all') query = query.eq('category_slug', categorySlug)
 
       const { data, error } = await query
-      if (!error && data) return data
+      if (!error && data && data.length > 0) return data
+      if (!error && data && data.length === 0) {
+        console.info('Supabase table empty, using harvest default products.')
+      }
     } catch (e) {
       console.warn('Supabase fetch products error, using fallback:', e)
     }
@@ -107,17 +120,38 @@ export async function fetchProducts({ activeOnly = false, categorySlug = null, f
 }
 
 export async function fetchProductBySlug(slug) {
+  if (!slug) return null
+
+  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug)
+
   if (isSupabaseConfigured) {
     try {
-      const { data, error } = await supabase.from('products').select('*').or(`slug.eq.${slug},id.eq.${slug}`).maybeSingle()
+      let query = supabase.from('products').select('*')
+      if (isUUID) {
+        query = query.or(`slug.eq.${slug},id.eq.${slug}`)
+      } else {
+        query = query.eq('slug', slug)
+      }
+
+      const { data, error } = await query.maybeSingle()
       if (!error && data) return data
+      if (error) {
+        console.warn('Supabase product query notice:', error.message)
+      }
     } catch (e) {
       console.warn('Supabase fetch product error:', e)
     }
   }
 
   const list = getLocalProducts()
-  return list.find((p) => p.slug === slug || p.id === slug) || null
+  const match = list.find(
+    (p) =>
+      p.slug === slug ||
+      p.id === slug ||
+      generateSlug(p.name) === slug ||
+      (p.slug && p.slug.toLowerCase() === slug.toLowerCase())
+  )
+  return match || null
 }
 
 export async function createProduct(productData) {

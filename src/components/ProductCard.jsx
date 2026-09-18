@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { getPouchGradient, generateGrainDots } from '../lib/whatsapp'
 import { LogoEmblem } from './Icons'
+import { generateSlug } from '../lib/api'
 
 export default function ProductCard({ product, onAddToCart }) {
   const bgGradient = getPouchGradient(product.color_key || product.colorKey || 'almond')
   const grainDots = generateGrainDots(product.color_key || product.colorKey || 'almond')
-  const productSlug = product.slug || product.id
+  const productSlug = product.slug || product.id || generateSlug(product.name)
 
   const catTag =
     product.category_slug === 'ladoos' || product.category === 'ladoos'
